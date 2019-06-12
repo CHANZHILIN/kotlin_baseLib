@@ -16,7 +16,6 @@ import com.kotlin_baselib.loadingview.LoadingView
  *  Introduce:
  **/
 abstract class BaseActivity : AppCompatActivity() {
-
     protected var mContext: BaseActivity? = null
     protected var mloadingDialog: AlertDialog? = null
     protected var mLoadingView: LoadingView? = null
