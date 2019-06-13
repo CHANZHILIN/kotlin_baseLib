@@ -8,6 +8,8 @@ package com.kotlin_baselib.api
  */
 interface Constants {
     companion object {
-       const val LOGIN_ACTIVITY_PATH = "/soul_login/loginActivity"   // 登录页面
+        const val DEBUG_TAG = "CHEN"
+        const val DEBUG = true
+        const val LOGIN_ACTIVITY_PATH = "/soul_login/loginActivity"   // 登录页面
     }
 }

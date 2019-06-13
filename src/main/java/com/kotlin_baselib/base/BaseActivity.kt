@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
+import android.widget.Toast
 import com.kotlin_baselib.R
 import com.kotlin_baselib.loadingview.LoadingView
+import com.kotlin_baselib.utils.AndroidBugWorkaround
 
 /**
  *  Created by CHEN on 2019/6/12
@@ -15,10 +17,12 @@ import com.kotlin_baselib.loadingview.LoadingView
  *  Package:com.kotlin_baselib.base
  *  Introduce:
  **/
-abstract class BaseActivity : AppCompatActivity() {
-    protected var mContext: BaseActivity? = null
+abstract class BaseActivity<V : BaseView, M : BaseModel, P : BasePresenter<V, M>> : BaseView, AppCompatActivity() {
+    protected var mContext: BaseActivity<V, M, P>? = null
     protected var mloadingDialog: AlertDialog? = null
     protected var mLoadingView: LoadingView? = null
+
+    protected var mPresenter: P? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,18 +31,27 @@ abstract class BaseActivity : AppCompatActivity() {
            }*/
         mContext = this
         setContentView(getResId())
+        AndroidBugWorkaround.assistActivity(this)       //解决虚拟导航栏遮盖问题
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.layout_loading_view, null)
         mLoadingView = dialogView.findViewById<LoadingView>(R.id.loading_view)
         mloadingDialog = AlertDialog
-                .Builder(mContext!!, R.style.CustomDialog)
-                .setView(dialogView)
-                .setCancelable(true)
-                .create()
+            .Builder(mContext!!, R.style.CustomDialog)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+
+        mPresenter = createPresenter()
+
         initData()
         initListener()
     }
+
+    /**
+     * @return 返回具体的Persenter
+     */
+    protected abstract fun createPresenter(): P
 
     /**
      * 获取资源id
@@ -65,6 +78,9 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onDestroy()
         if (mloadingDialog != null) {
             mloadingDialog = null
+        }
+        if (mPresenter != null) {
+            mPresenter!!.detachView()
         }
     }
 
@@ -103,5 +119,14 @@ abstract class BaseActivity : AppCompatActivity() {
     protected fun finishResult() {
         setResult(RESULT_OK)
         this.finish()
+    }
+
+    override fun onSuccess(msg: String) {
+        hideLoading()
+    }
+
+    override fun onError(code: Int, msg: String) {
+        hideLoading()
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show()
     }
 }

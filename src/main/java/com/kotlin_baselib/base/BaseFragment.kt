@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.kotlin_baselib.R
 import com.kotlin_baselib.loadingview.LoadingView
 
@@ -17,13 +18,15 @@ import com.kotlin_baselib.loadingview.LoadingView
  *  Package:com.kotlin_baselib.base
  *  Introduce:
  **/
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<V : BaseView, M : BaseModel, P : BasePresenter<V, M>> : Fragment(), BaseView {
 
-    protected var mContext: BaseActivity? = null
+    protected var mContext: BaseActivity<V, M, P>? = null
     protected var mRootView: View? = null
 
     protected var mloadingDialog: AlertDialog? = null
     protected var mLoadingView: LoadingView? = null
+
+    protected var mPresenter: P? = null
 
     /**
      * 视图是否加载完毕
@@ -36,7 +39,7 @@ abstract class BaseFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mContext = activity as BaseActivity;
+        mContext = activity as BaseActivity<V, M, P>;
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,10 +47,12 @@ abstract class BaseFragment : Fragment() {
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.layout_loading_view, null)
         mLoadingView = dialogView.findViewById<LoadingView>(R.id.loading_view)
         mloadingDialog = AlertDialog
-                .Builder(mContext!!, R.style.CustomDialog)
-                .setView(dialogView)
-                .setCancelable(true)
-                .create()
+            .Builder(mContext!!, R.style.CustomDialog)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+
+        mPresenter = createPresenter()
 
         return view
     }
@@ -106,6 +111,11 @@ abstract class BaseFragment : Fragment() {
      */
     abstract fun lazyLoad()
 
+    /**
+     * @return 返回具体的Persenter
+     */
+    protected abstract fun createPresenter(): P
+
 
     override fun onPause() {
         super.onPause()
@@ -116,6 +126,9 @@ abstract class BaseFragment : Fragment() {
         super.onDestroy()
         if (mloadingDialog != null) {
             mloadingDialog = null
+        }
+        if (mPresenter != null) {
+            mPresenter!!.detachView()
         }
     }
 
@@ -156,4 +169,13 @@ abstract class BaseFragment : Fragment() {
         mContext!!.finish()
     }
 
+
+    override fun onSuccess(msg: String) {
+        hideLoading()
+    }
+
+    override fun onError(code: Int, msg: String) {
+        hideLoading()
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show()
+    }
 }

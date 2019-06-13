@@ -7,5 +7,7 @@ package com.kotlin_baselib.base
  *  Package:com.kotlin_baselib.base
  *  Introduce:
  **/
-class BaseView {
+interface BaseView {
+    fun onSuccess(msg: String)
+    fun onError(code: Int, msg: String)
 }
