@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--加载图片中圆形进度条-->
+    <declare-styleable name="ProgressImageView">
+        <attr name="progressCircleWidth" format="dimension" />
+        <attr name="progressBackgroundColor" format="color" />
+        <attr name="progressColor" format="color" />
+        <attr name="progressTextColor" format="color" />
+        <attr name="progressTextSize" format="dimension" />
+        <attr name="progressSize" format="dimension" />
+    </declare-styleable>
+</resources>

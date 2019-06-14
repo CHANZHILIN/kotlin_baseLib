@@ -39,7 +39,7 @@ abstract class BaseFragment<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mContext = activity as BaseActivity<V, M, P>;
+        mContext = activity as BaseActivity<V, M, P>
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -12,6 +12,12 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import java.util.*
 
+/**
+ *  Created by CHEN on 2019/6/14
+ *  Email:1181785848@qq.com
+ *  Package:com.kotlin_baselib.loadingview
+ *  Introduce: 加载动画
+ **/
 class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
         View(context, attrs, defStyleAttr) {
     //静止状态
