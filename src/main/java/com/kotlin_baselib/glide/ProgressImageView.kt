@@ -13,9 +13,14 @@ import com.kotlin_baselib.R
  * Created by CHEN on 2019/6/14
  * Email:1181785848@qq.com
  * Package:com.kotlin_baselib.glide
- * Introduce:   带进度条的ImageView
+ * Introduce:   自定义带进度条的ImageView
  */
 class ProgressImageView : FrameLayout {
+
+    companion object {
+        private val SCALE_TYPE = ImageView.ScaleType.CENTER_CROP  //图片缩放类型
+    }
+
 
     var imageView: ImageView? = null      //空图片
     var circleProgressBar: CircleProgressBar? = null  //进度条
@@ -56,7 +61,7 @@ class ProgressImageView : FrameLayout {
                     attr, TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP, 6f, resources.displayMetrics
                     ).toInt()
-                ) // 默认圆弧宽度为8dp
+                ) // 默认圆弧宽度为6dp
 
             } else if (attr == R.styleable.ProgressImageView_progressBackgroundColor) {
                 progressBackgroundColor = ta.getColor(attr, Color.parseColor("#F4F4F4"))
@@ -86,16 +91,13 @@ class ProgressImageView : FrameLayout {
         circleProgressBar!!.setSecondColor(progressColor)
         circleProgressBar!!.setTextPaintColor(progressTextColor)
         circleProgressBar!!.setTextSize(progressTextSize)
-        val layoutParams = LayoutParams(progressSize, progressSize)
+        val layoutParams = LayoutParams(progressSize, progressSize) //进度条的大小
         layoutParams.gravity = Gravity.CENTER
         circleProgressBar!!.layoutParams = layoutParams
         addView(imageView)
         addView(circleProgressBar)
     }
 
-    companion object {
-        private val SCALE_TYPE = ImageView.ScaleType.CENTER_CROP  //缩放类型
-    }
 
 
 }

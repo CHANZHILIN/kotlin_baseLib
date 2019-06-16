@@ -18,29 +18,17 @@ class GlideUtil private constructor() {
         val instance = GlideUtil()
     }
 
-    /**
-     * 加载头像
-     *
-     * @param context
-     * @param path
-     * @param target
-     */
-    fun loadAvatar(context: Context, path: String, target: ImageView) {
+    companion object {
 
-        val options = RequestOptions()
-            .placeholder(R.mipmap.ic_launcher)
-            .error(R.mipmap.ic_launcher)
-
-        GlideApp.with(context)
-            .load(path)
-            .apply(options)
-            .into(target)
+        val instance: GlideUtil
+            get() = ImageLoaderInstance.instance
     }
 
+
     /**
-     * 加载大图
+     * 加载图片
      */
-    fun loadBigImage(context: Context, path: String, target: ImageView) {
+    fun loadImage(context: Context, path: String, target: ImageView) {
         val options = RequestOptions()
             .placeholder(R.mipmap.ic_launcher)
             .error(R.mipmap.ic_launcher)
@@ -54,7 +42,7 @@ class GlideUtil private constructor() {
     /**
      * 带进度条的图片加载
      */
-    fun loadBigImageWithProgress(context: Context, path: String, target: ProgressImageView) {
+    fun loadImageWithProgress(context: Context, path: String, target: ProgressImageView) {
         ProgressInterceptor.addListener(path, MyProgressListener(target.circleProgressBar!!)) //设置监听
         val options = RequestOptions()
             .placeholder(R.mipmap.ic_launcher)
@@ -69,10 +57,6 @@ class GlideUtil private constructor() {
 
     /**
      * 不设置缓存
-     *
-     * @param context
-     * @param path
-     * @param target
      */
     fun loadImageWithoutCache(context: Context, path: String, target: ImageView) {
         val options = RequestOptions()
@@ -85,12 +69,6 @@ class GlideUtil private constructor() {
             .load(path)
             .apply(options)
             .into(target)
-    }
-
-    companion object {
-
-        val instance: GlideUtil
-            get() = ImageLoaderInstance.instance
     }
 
 

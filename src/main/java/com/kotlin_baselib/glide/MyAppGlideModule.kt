@@ -44,7 +44,6 @@ class MyAppGlideModule : AppGlideModule() {
         val builder = OkHttpClient.Builder()
         builder.addInterceptor(ProgressInterceptor())   //添加拦截器
         val okHttpClient = builder.build()
-        Log.d("MyProgressListener:","到这里了")
         registry.replace(
             GlideUrl::class.java,
             InputStream::class.java,
