@@ -22,8 +22,8 @@ class ProgressImageView : FrameLayout {
     }
 
 
-    var imageView: ImageView? = null      //空图片
-    var circleProgressBar: CircleProgressBar? = null  //进度条
+    lateinit var imageView: ImageView     //空图片
+    lateinit var circleProgressBar: CircleProgressBar  //进度条
 
     private var progressCircleWidth = 6
     private var progressBackgroundColor = Color.parseColor("#F4F4F4")
@@ -46,7 +46,7 @@ class ProgressImageView : FrameLayout {
 
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
         imageView = ImageView(context)
-        imageView!!.scaleType = SCALE_TYPE
+        imageView.scaleType = SCALE_TYPE
         circleProgressBar = CircleProgressBar(context, attrs)
 
         val ta = context.theme.obtainStyledAttributes(
@@ -81,17 +81,19 @@ class ProgressImageView : FrameLayout {
             }
 
         }
-        circleProgressBar!!.setCircleWidth(progressCircleWidth)
-        circleProgressBar!!.setFirstColor(progressBackgroundColor)
-        circleProgressBar!!.setSecondColor(progressColor)
-        circleProgressBar!!.setTextPaintColor(progressTextColor)
-        circleProgressBar!!.setTextSize(progressTextSize)
+        circleProgressBar.setCircleWidth(progressCircleWidth)
+        circleProgressBar.setFirstColor(progressBackgroundColor)
+        circleProgressBar.setSecondColor(progressColor)
+        circleProgressBar.setTextPaintColor(progressTextColor)
+        circleProgressBar.setTextSize(progressTextSize)
         val layoutParams = LayoutParams(progressSize, progressSize) //进度条的大小
         layoutParams.gravity = Gravity.CENTER
-        circleProgressBar!!.layoutParams = layoutParams
+        circleProgressBar.layoutParams = layoutParams
         addView(imageView)
         addView(circleProgressBar)
     }
+
+
 
 
 }

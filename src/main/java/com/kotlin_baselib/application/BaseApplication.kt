@@ -8,9 +8,9 @@ import com.alibaba.android.arouter.launcher.ARouter
  * Created by CHEN on 2019/6/13
  * Email:1181785848@qq.com
  * Package:com.kotlin_baselib.application
- * Introduce:
+ * Introduce:   主Application
  */
- class BaseApplication : MultiDexApplication() {
+class BaseApplication : MultiDexApplication() {
 
 
     override fun onCreate() {
@@ -34,7 +34,7 @@ import com.alibaba.android.arouter.launcher.ARouter
                 val clazz = Class.forName(moduleImpl)
                 val obj = clazz.newInstance()
                 if (obj is IComponentApplication) {
-                    obj.onCreate(instance!!)
+                    obj.onCreate(instance)
                 }
             } catch (e: ClassNotFoundException) {
                 e.printStackTrace()
@@ -48,9 +48,8 @@ import com.alibaba.android.arouter.launcher.ARouter
     }
 
     companion object {
-
         @get:Synchronized
-        var instance: BaseApplication? = null
+        lateinit var instance: BaseApplication
             private set
     }
 }

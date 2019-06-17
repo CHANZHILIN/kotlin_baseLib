@@ -2,7 +2,6 @@ package com.kotlin_baselib.recyclerview
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,8 @@ abstract class BaseRecyclerViewAdapter<T> constructor(data: MutableList<T>?, res
 
     private var mItemListener: OnItemListener? = null
     private var mData: MutableList<T>? = null
-    private var mResouce: Int? = null
-    protected var mContext: Context? = null
+    private var mResouce: Int
+    protected lateinit var mContext: Context
 
     init {
         mData = data
@@ -28,7 +27,7 @@ abstract class BaseRecyclerViewAdapter<T> constructor(data: MutableList<T>?, res
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): BaseRecyclerViewHolder<T> {
         mContext = viewGroup.context
-        val view = LayoutInflater.from(mContext).inflate(mResouce!!, viewGroup, false)
+        val view = LayoutInflater.from(mContext).inflate(mResouce, viewGroup, false)
         return holder(view, viewType)
     }
 

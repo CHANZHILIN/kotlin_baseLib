@@ -49,27 +49,6 @@ class AndroidBugWorkaround private constructor(private val activity: Activity) {
         frameLayoutParams = mChildOfContent.layoutParams as FrameLayout.LayoutParams
     }
 
-    private fun possiblyResizeChildOfContent() {
-        val usableHeightNow = computeUsableHeight()
-        if (usableHeightNow != usableHeightPrevious) {
-
-            frameLayoutParams.height = usableHeightNow
-            mChildOfContent.requestLayout()
-            usableHeightPrevious = usableHeightNow
-        }
-    }
-
-    /**
-     * 可用的高度
-     *
-     * @return
-     */
-    private fun computeUsableHeight(): Int {
-        val r = Rect()
-        mChildOfContent.getWindowVisibleDisplayFrame(r)
-        return r.bottom
-    }
-
     companion object {
 
         // For more information, see https://code.google.com/p/android/issues/detail?id=5497
@@ -79,5 +58,24 @@ class AndroidBugWorkaround private constructor(private val activity: Activity) {
             AndroidBugWorkaround(activity)
         }
     }
+
+    private fun possiblyResizeChildOfContent() {
+        val usableHeightNow = computeUsableHeight()
+        if (usableHeightNow != usableHeightPrevious) {
+            frameLayoutParams.height = usableHeightNow
+            mChildOfContent.requestLayout()
+            usableHeightPrevious = usableHeightNow
+        }
+    }
+
+    /**
+     * 可用的高度
+     */
+    private fun computeUsableHeight(): Int {
+        val r = Rect()
+        mChildOfContent.getWindowVisibleDisplayFrame(r)
+        return r.bottom
+    }
+
 
 }

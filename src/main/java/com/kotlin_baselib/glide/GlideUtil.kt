@@ -43,7 +43,7 @@ class GlideUtil private constructor() {
      * 带进度条的图片加载
      */
     fun loadImageWithProgress(context: Context, path: String, target: ProgressImageView) {
-        ProgressInterceptor.addListener(path, MyProgressListener(target.circleProgressBar!!)) //设置监听
+        ProgressInterceptor.addListener(path, MyProgressListener(target.circleProgressBar)) //设置监听
         val options = RequestOptions()
             .placeholder(R.mipmap.ic_launcher)
             .error(R.mipmap.ic_launcher)
@@ -51,7 +51,7 @@ class GlideUtil private constructor() {
         GlideApp.with(context)
             .load(path)
             .apply(options)
-            .into(MyGlideDrawableImageViewTarget(target.imageView!!, target.circleProgressBar!!, path))
+            .into(MyGlideDrawableImageViewTarget(target.imageView, target.circleProgressBar, path))
     }
 
 

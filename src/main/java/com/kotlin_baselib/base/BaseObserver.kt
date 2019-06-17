@@ -29,8 +29,7 @@ abstract class BaseObserver<T> constructor(private var mPresenter: BasePresenter
     private val SERVICE_TEMPORARILY_UNAVAILABLE = 503
     private val OTHER_ERROR = 506     //其他错误
 
-    private var context: Context? = null
-
+    private  var context: Context
     init {
         context = BaseApplication.instance
     }
@@ -60,36 +59,36 @@ abstract class BaseObserver<T> constructor(private var mPresenter: BasePresenter
             when (code) {
                 NOT_FOUND ->
                     // 404
-                    msg = context!!.getString(R.string.network_error)
+                    msg = context.getString(R.string.network_error)
                 INTERNAL_SERVER_ERROR ->
                     // 500
-                    msg = context!!.getString(R.string.network_error)
+                    msg = context.getString(R.string.network_error)
                 UNSATISFIABLE_REQUEST ->
                     // 504
-                    msg = context!!.getString(R.string.network_error)
+                    msg = context.getString(R.string.network_error)
                 SERVICE_TEMPORARILY_UNAVAILABLE ->
                     // 503
-                    msg = context!!.getString(R.string.network_error)
+                    msg = context.getString(R.string.network_error)
                 else -> {
                 }
             }
             onError(code, msg)
         } else if (e is UnknownHostException) {
             //没有网络
-            msg = context!!.getString(R.string.network_error)
+            msg = context.getString(R.string.network_error)
             onError(OTHER_ERROR, msg)
         } else if (e is SocketTimeoutException) {
             // 连接超时
-            msg = context!!.getString(R.string.network_error)
+            msg = context.getString(R.string.network_error)
             onError(OTHER_ERROR, msg)
         } else if (e is ConnectException) {
-            msg = context!!.getString(R.string.network_error)
+            msg = context.getString(R.string.network_error)
             onError(OTHER_ERROR, msg)
         } else if (e is ParseException) {
-            msg = context!!.getString(R.string.network_error)
+            msg = context.getString(R.string.network_error)
             onError(OTHER_ERROR, msg)
         } else {
-            msg = context!!.getString(R.string.network_error)
+            msg = context.getString(R.string.network_error)
             onError(OTHER_ERROR, msg)
         }
         e.printStackTrace()

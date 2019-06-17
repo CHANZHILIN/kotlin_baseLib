@@ -7,7 +7,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import java.util.*
@@ -19,7 +18,7 @@ import java.util.*
  *  Introduce: 加载动画
  **/
 class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        View(context, attrs, defStyleAttr) {
+    View(context, attrs, defStyleAttr) {
     //静止状态
     private val STATUS_STILL = 0
     //加载状态
@@ -33,7 +32,7 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     //最小间隔时长
     private val MIN_DURATION = 500
 
-    private var mPaint: Paint? = null
+    private lateinit var mPaint: Paint
     private val mColors = intArrayOf(-0x4f813426, -0x4f1956d4, -0x4f29feb3, -0x4fa5456c)
     private var mWidth: Int = 0
     private var mHeight: Int = 0
@@ -64,16 +63,16 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private fun initView() {
         mPaint = Paint()
-        mPaint!!.isAntiAlias = true
-        mPaint!!.color = mColors[0]
-        mPaint!!.strokeCap = Paint.Cap.ROUND
+        mPaint.isAntiAlias = true
+        mPaint.color = mColors[0]
+        mPaint.strokeCap = Paint.Cap.ROUND
     }
 
     private fun initData() {
         mCanvasAngle = CANVAS_ROTATE_ANGLE
         mLineLength = mEntireLineLength.toFloat()
         mCircleRadius = mEntireLineLength / 5
-        mPaint!!.strokeWidth = (mCircleRadius * 2).toFloat()
+        mPaint.strokeWidth = (mCircleRadius * 2).toFloat()
         mStep = 0
     }
 
@@ -88,47 +87,47 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         super.onDraw(canvas)
         when (mStep % 4) {
             0 -> for (i in mColors.indices) {
-                mPaint!!.color = mColors[i]
+                mPaint.color = mColors[i]
                 drawCRLC(
-                        canvas,
-                        mWidth / 2 - mEntireLineLength / 2.2f,
-                        mHeight / 2 - mLineLength,
-                        mWidth / 2 - mEntireLineLength / 2.2f,
-                        (mHeight / 2 + mEntireLineLength).toFloat(),
-                        mPaint!!,
-                        mCanvasAngle + i * 90
+                    canvas,
+                    mWidth / 2 - mEntireLineLength / 2.2f,
+                    mHeight / 2 - mLineLength,
+                    mWidth / 2 - mEntireLineLength / 2.2f,
+                    (mHeight / 2 + mEntireLineLength).toFloat(),
+                    mPaint,
+                    mCanvasAngle + i * 90
                 )
             }
             1 -> for (i in mColors.indices) {
-                mPaint!!.color = mColors[i]
+                mPaint.color = mColors[i]
                 drawCR(
-                        canvas,
-                        mWidth / 2 - mEntireLineLength / 2.2f,
-                        (mHeight / 2 + mEntireLineLength).toFloat(),
-                        mPaint!!,
-                        mCanvasAngle + i * 90
+                    canvas,
+                    mWidth / 2 - mEntireLineLength / 2.2f,
+                    (mHeight / 2 + mEntireLineLength).toFloat(),
+                    mPaint,
+                    mCanvasAngle + i * 90
                 )
             }
             2 -> for (i in mColors.indices) {
-                mPaint!!.color = mColors[i]
+                mPaint.color = mColors[i]
                 drawCRCC(
-                        canvas,
-                        mWidth / 2 - mEntireLineLength / 2.2f,
-                        mHeight / 2 + mCircleY,
-                        mPaint!!,
-                        mCanvasAngle + i * 90
+                    canvas,
+                    mWidth / 2 - mEntireLineLength / 2.2f,
+                    mHeight / 2 + mCircleY,
+                    mPaint,
+                    mCanvasAngle + i * 90
                 )
             }
             3 -> for (i in mColors.indices) {
-                mPaint!!.color = mColors[i]
+                mPaint.color = mColors[i]
                 drawLC(
-                        canvas,
-                        mWidth / 2 - mEntireLineLength / 2.2f,
-                        (mHeight / 2 + mEntireLineLength).toFloat(),
-                        mWidth / 2 - mEntireLineLength / 2.2f,
-                        mHeight / 2 + mLineLength,
-                        mPaint!!,
-                        mCanvasAngle + i * 90
+                    canvas,
+                    mWidth / 2 - mEntireLineLength / 2.2f,
+                    (mHeight / 2 + mEntireLineLength).toFloat(),
+                    mWidth / 2 - mEntireLineLength / 2.2f,
+                    mHeight / 2 + mLineLength,
+                    mPaint,
+                    mCanvasAngle + i * 90
                 )
             }
         }
@@ -136,13 +135,13 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     private fun drawCRLC(
-            canvas: Canvas,
-            startX: Float,
-            startY: Float,
-            stopX: Float,
-            stopY: Float,
-            paint: Paint,
-            rotate: Int
+        canvas: Canvas,
+        startX: Float,
+        startY: Float,
+        stopX: Float,
+        stopY: Float,
+        paint: Paint,
+        rotate: Int
     ) {
         canvas.rotate(rotate.toFloat(), (mWidth / 2).toFloat(), (mHeight / 2).toFloat())
         canvas.drawLine(startX, startY, stopX, stopY, paint)
@@ -162,13 +161,13 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     private fun drawLC(
-            canvas: Canvas,
-            startX: Float,
-            startY: Float,
-            stopX: Float,
-            stopY: Float,
-            paint: Paint,
-            rotate: Int
+        canvas: Canvas,
+        startX: Float,
+        startY: Float,
+        stopX: Float,
+        stopY: Float,
+        paint: Paint,
+        rotate: Int
     ) {
         canvas.rotate(rotate.toFloat(), (mWidth / 2).toFloat(), (mHeight / 2).toFloat())
         canvas.drawLine(startX, startY, stopX, stopY, paint)
@@ -259,8 +258,8 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         animList.add(canvasRotateAnim)
 
         val circleYAnim = ValueAnimator.ofFloat(
-                mEntireLineLength.toFloat(),
-                (mEntireLineLength / 4).toFloat(), mEntireLineLength.toFloat()
+            mEntireLineLength.toFloat(),
+            (mEntireLineLength / 4).toFloat(), mEntireLineLength.toFloat()
         )
         circleYAnim.addUpdateListener { animation ->
             mCircleY = animation.animatedValue as Float
@@ -295,8 +294,8 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
      */
     private fun startLCAnim() {
         val lineWidthAnim = ValueAnimator.ofFloat(
-                (mEntireLineLength - dp2px(context, 1f)).toFloat(),
-                (-mEntireLineLength).toFloat()
+            (mEntireLineLength - dp2px(context, 1f)).toFloat(),
+            (-mEntireLineLength).toFloat()
         )
         lineWidthAnim.duration = mDuration.toLong()
         lineWidthAnim.interpolator = LinearInterpolator()
