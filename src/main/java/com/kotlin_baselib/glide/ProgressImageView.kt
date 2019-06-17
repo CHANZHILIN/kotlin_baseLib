@@ -79,35 +79,7 @@ class ProgressImageView : FrameLayout {
                         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36f, resources.displayMetrics).toInt()
                     ) // 默认文字的大小
             }
-            /*      if (attr == R.styleable.ProgressImageView_progressCircleWidth) {
-                      progressCircleWidth = ta.getDimensionPixelSize(
-                          attr, TypedValue.applyDimension(
-                              TypedValue.COMPLEX_UNIT_DIP, 6f, resources.displayMetrics
-                          ).toInt()
-                      ) // 默认圆弧宽度为6dp
 
-                  } else if (attr == R.styleable.ProgressImageView_progressBackgroundColor) {
-                      progressBackgroundColor = ta.getColor(attr, Color.parseColor("#F4F4F4"))
-
-                  } else if (attr == R.styleable.ProgressImageView_progressColor) {
-                      progressColor = ta.getColor(attr, Color.parseColor("#87CB43"))
-
-                  } else if (attr == R.styleable.ProgressImageView_progressTextColor) {
-                      progressTextColor = ta.getColor(attr, Color.BLACK)
-
-                  } else if (attr == R.styleable.ProgressImageView_progressSize) {
-                      progressSize = ta.getDimensionPixelSize(
-                          attr, TypedValue.applyDimension(
-                              TypedValue.COMPLEX_UNIT_DIP, 120f, resources.displayMetrics
-                          ).toInt()
-                      ) // 默认进度条的大小
-                  } else if (attr == R.styleable.ProgressImageView_progressTextSize) {
-                      progressTextSize = ta.getDimensionPixelSize(
-                          attr, TypedValue.applyDimension(
-                              TypedValue.COMPLEX_UNIT_DIP, 36f, resources.displayMetrics
-                          ).toInt()
-                      ) // 默认文字的大小
-                  }*/
         }
         circleProgressBar!!.setCircleWidth(progressCircleWidth)
         circleProgressBar!!.setFirstColor(progressBackgroundColor)
