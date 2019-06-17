@@ -94,22 +94,22 @@ abstract class BaseFragment<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
     /**
      * 获取资源id
      */
-    abstract fun getResId(): Int
+    protected abstract fun getResId(): Int
 
     /**
      * 初始化数据
      */
-    abstract fun initData()
+    protected abstract fun initData()
 
     /**
      * 初始化点击事件
      */
-    abstract fun initListener()
+    protected abstract fun initListener()
 
     /**
      * 懒加载
      */
-    abstract fun lazyLoad()
+    protected abstract fun lazyLoad()
 
     /**
      * @return 返回具体的Persenter

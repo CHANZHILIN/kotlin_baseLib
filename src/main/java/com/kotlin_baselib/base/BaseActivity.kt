@@ -56,17 +56,17 @@ abstract class BaseActivity<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
     /**
      * 获取资源id
      */
-    abstract fun getResId(): Int
+    protected abstract fun getResId(): Int
 
     /**
      * 初始化数据
      */
-    abstract fun initData()
+    protected abstract fun initData()
 
     /**
      * 初始化点击事件
      */
-    abstract fun initListener()
+    protected abstract fun initListener()
 
 
     override fun onPause() {
