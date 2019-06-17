@@ -17,7 +17,8 @@ abstract class BaseRecyclerViewHolder<T>(itemView: View, context: Context) : Rec
     init {
         mContext = context
         itemView.setOnClickListener { v ->
-            itemListener!!.onItem(v, layoutPosition)
+            if (itemListener != null)
+                itemListener!!.onItem(v, layoutPosition)
         }
     }
 

@@ -20,13 +20,13 @@ import com.kotlin_baselib.loadingview.LoadingView
  **/
 abstract class BaseFragment<V : BaseView, M : BaseModel, P : BasePresenter<V, M>> : Fragment(), BaseView {
 
-    protected var mContext: BaseActivity<V, M, P>? = null
+    protected lateinit var mContext: BaseActivity<V, M, P>
     protected var mRootView: View? = null
 
-    protected var mloadingDialog: AlertDialog? = null
-    protected var mLoadingView: LoadingView? = null
+    protected lateinit var mloadingDialog: AlertDialog
+    protected lateinit var mLoadingView: LoadingView
 
-    protected var mPresenter: P? = null
+    protected lateinit var mPresenter: P
 
     /**
      * 视图是否加载完毕
@@ -47,7 +47,7 @@ abstract class BaseFragment<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.layout_loading_view, null)
         mLoadingView = dialogView.findViewById<LoadingView>(R.id.loading_view)
         mloadingDialog = AlertDialog
-            .Builder(mContext!!, R.style.CustomDialog)
+            .Builder(mContext, R.style.CustomDialog)
             .setView(dialogView)
             .setCancelable(true)
             .create()
@@ -124,21 +124,21 @@ abstract class BaseFragment<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mloadingDialog != null) {
-            mloadingDialog = null
+        if (mloadingDialog.isShowing) {
+            mloadingDialog.dismiss()
         }
-        if (mPresenter != null) {
-            mPresenter!!.detachView()
-        }
+
+        mPresenter.detachView()
+
     }
 
     /**
      * 弹出加载动画
      */
     protected fun showLoading() {
-        if (!mloadingDialog!!.isShowing) {
-            mloadingDialog!!.show()
-            mLoadingView!!.start()
+        if (!mloadingDialog.isShowing) {
+            mloadingDialog.show()
+            mLoadingView.start()
         }
     }
 
@@ -146,9 +146,9 @@ abstract class BaseFragment<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
      * 隐藏加载动画
      */
     protected fun hideLoading() {
-        if (mloadingDialog!!.isShowing) {
-            mloadingDialog!!.dismiss()
-            mLoadingView!!.reset()
+        if (mloadingDialog.isShowing) {
+            mloadingDialog.dismiss()
+            mLoadingView.reset()
         }
     }
 
@@ -156,17 +156,17 @@ abstract class BaseFragment<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
      * 不带动画结束
      */
     protected fun finishSimple() {
-        mContext!!.finish()
+        mContext.finish()
     }
 
     protected fun finishResult(intent: Intent) {
-        mContext!!.setResult(AppCompatActivity.RESULT_OK, intent)
-        mContext!!.finish()
+        mContext.setResult(AppCompatActivity.RESULT_OK, intent)
+        mContext.finish()
     }
 
     protected fun finishResult() {
-        mContext!!.setResult(AppCompatActivity.RESULT_OK)
-        mContext!!.finish()
+        mContext.setResult(AppCompatActivity.RESULT_OK)
+        mContext.finish()
     }
 
 
