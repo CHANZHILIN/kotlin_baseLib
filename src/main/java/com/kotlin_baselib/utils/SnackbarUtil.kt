@@ -17,10 +17,10 @@ import com.kotlin_baselib.R
  */
 object SnackbarUtil {
 
-    val Info = 1
-    val Confirm = 2
-    val Warning = 3
-    val Alert = 4
+    val INFO = 1
+    val CONFIRM = 2
+    val WARNING = 3
+    val ALERT = 4
 
 
     var green = -0xb350b0
@@ -124,10 +124,10 @@ object SnackbarUtil {
     //选择预设类型
     private fun switchType(snackbar: Snackbar, type: Int) {
         when (type) {
-            Info -> setSnackbarColor(snackbar, blue)
-            Confirm -> setSnackbarColor(snackbar, green)
-            Warning -> setSnackbarColor(snackbar, orange)
-            Alert -> setSnackbarColor(snackbar, Color.YELLOW, red)
+            INFO -> setSnackbarColor(snackbar, blue)
+            CONFIRM -> setSnackbarColor(snackbar, green)
+            WARNING -> setSnackbarColor(snackbar, orange)
+            ALERT -> setSnackbarColor(snackbar, Color.YELLOW, red)
         }
     }
 
