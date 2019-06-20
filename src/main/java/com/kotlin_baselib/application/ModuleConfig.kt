@@ -8,5 +8,10 @@ package com.kotlin_baselib.application
  */
 object ModuleConfig {
 
-    val MODULESLIST: Array<String> = arrayOf("com.soul_login.application.LoginApplication")
+    val MODULESLIST: Array<String> = arrayOf(
+        "com.soul_login.application.LoginApplication",
+        "com.soul_picture.application.PictureApplication",
+        "com.soul_music.application.MusicApplication",
+        "com.soul_video.application.VideoApplication"
+    )
 }
