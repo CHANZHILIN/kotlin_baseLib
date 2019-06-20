@@ -12,7 +12,7 @@ import android.util.TypedValue
  *  Package:com.kotlin_baselib.utils
  *  Introduce:  尺寸转换工具
  **/
-class Dp2PxUtil {
+object  Dp2PxUtil {
 
     fun dip2px(context: Context, dpValue: Float): Int {
         return TypedValue.applyDimension(
