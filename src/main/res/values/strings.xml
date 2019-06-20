@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">kotlin_baseLib</string>
     <string name="network_error">网络异常,请稍后再试</string>
+    <string name="right_search_icon">右侧搜索图标</string>
 </resources>

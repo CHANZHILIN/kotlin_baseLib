@@ -19,7 +19,6 @@ class GlideUtil private constructor() {
     }
 
     companion object {
-
         val instance: GlideUtil
             get() = ImageLoaderInstance.instance
     }

@@ -165,13 +165,10 @@ object SnackbarUtil {
     fun SnackbarAddView(snackbar: Snackbar, layoutId: Int, index: Int) {
         val snackbarview = snackbar.view
         val snackbarLayout = snackbarview as Snackbar.SnackbarLayout
-
         val add_view = LayoutInflater.from(snackbarview.getContext()).inflate(layoutId, null)
-
         val p =
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         p.gravity = Gravity.CENTER_VERTICAL
-
         snackbarLayout.addView(add_view, index, p)
     }
 
