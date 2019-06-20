@@ -29,9 +29,9 @@ class NoScrollViewPager : ViewPager {
 
     override fun onTouchEvent(arg0: MotionEvent): Boolean {
         /* return false;//super.onTouchEvent(arg0); */
-        when (arg0.action) {
+    /*    when (arg0.action) {
 
-        }
+        }*/
         return !noScroll && super.onTouchEvent(arg0)
     }
 

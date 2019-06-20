@@ -16,7 +16,7 @@ import com.kotlin_baselib.loadingview.LoadingView
  *  Created by CHEN on 2019/6/12
  *  Email:1181785848@qq.com
  *  Package:com.kotlin_baselib.base
- *  Introduce:
+ *  Introduce:  主Fragment
  **/
 abstract class BaseFragment<V : BaseView, M : BaseModel, P : BasePresenter<V, M>> : Fragment(), BaseView {
 
@@ -84,7 +84,7 @@ abstract class BaseFragment<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
         if (mRootView == null) {
             mRootView = inflater.inflate(resId, null)
         }
-        val parent: ViewGroup? = (mRootView?.parent) as ViewGroup
+        val parent: ViewGroup? = mRootView!!.parent as ViewGroup?
         if (parent != null) {
             parent.removeView(mRootView)
         }
