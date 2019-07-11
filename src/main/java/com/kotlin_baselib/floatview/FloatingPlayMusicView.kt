@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.layout_floating_play_music.view.*
  **/
 class FloatingPlayMusicView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
 
-    var originalWidth: Int = 0       //原始尺寸，这是个bug,为了解决onMeasure不回调问题
+    var originalWidth: Int = 0       //原始尺寸，这是个bug,为了解决无法放大缩小
     var originalHeight: Int = 0
 
 
