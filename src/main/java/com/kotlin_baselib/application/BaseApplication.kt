@@ -2,7 +2,10 @@ package com.kotlin_baselib.application
 
 import android.support.multidex.BuildConfig
 import android.support.multidex.MultiDexApplication
+import android.util.Log
 import com.alibaba.android.arouter.launcher.ARouter
+import com.kotlin_baselib.api.Constants
+import com.kotlin_baselib.utils.SdCardUtil
 
 /**
  * Created by CHEN on 2019/6/13
@@ -17,15 +20,20 @@ class BaseApplication : MultiDexApplication() {
         super.onCreate()
         instance = this
 
-        if (BuildConfig.DEBUG) {
+        if (Constants.DEBUG) {
             ARouter.openLog()
             ARouter.openDebug()
         }
         ARouter.init(this)//初始化
-
         //Module类的APP初始化
         modulesApplicationInit()
+        //初始化项目文件夹
+        SdCardUtil.initFileDir(this);
+    }
 
+    override fun onTerminate() {
+        super.onTerminate()
+        ARouter.getInstance().destroy()
     }
 
     private fun modulesApplicationInit() {
