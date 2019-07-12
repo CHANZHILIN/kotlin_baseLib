@@ -30,6 +30,8 @@ class FloatingMusicService : Service() {
 
     private lateinit var mFloatPlayMusicView: FloatingPlayMusicView
 
+    private var isPlayAudio = false
+
     var fileName: String? = null
 
 
@@ -73,22 +75,26 @@ class FloatingMusicService : Service() {
         mFloatPlayMusicView.setOnStatusChangeListener(object : FloatingPlayMusicView.onStatusChange {
             override fun onPlay() {
                 AudioTrackManager.getInstance().startPlay(SdCardUtil.recordDir.path + File.separator + fileName)
-                AudioTrackManager.getInstance().setOnAudioStatusChangeListener(object : AudioTrackManager.onAudioStatusChange {
-                    override fun onPlay() {
+                AudioTrackManager.getInstance()
+                    .setOnAudioStatusChangeListener(object : AudioTrackManager.onAudioStatusChange {
+                        override fun onPlay() {
+                            isPlayAudio = true
+                        }
 
-                    }
-
-                    override fun onStop() {
-                        mFloatPlayMusicView.stopPlayAnimation()
-                    }
-                })
+                        override fun onStop() {
+                            isPlayAudio = false
+                            mFloatPlayMusicView.stopPlayAnimation()
+                        }
+                    })
             }
 
             override fun onPause() {
+                isPlayAudio = false
                 AudioTrackManager.getInstance().stopPlay()
             }
 
             override fun onFinishService() {   //关闭service的回调
+                if (isPlayAudio) AudioTrackManager.getInstance().stopPlay()  //需要把播放录音关掉
                 stopSelf()
             }
         })
