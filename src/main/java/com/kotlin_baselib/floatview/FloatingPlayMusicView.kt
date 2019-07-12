@@ -32,6 +32,7 @@ class FloatingPlayMusicView @JvmOverloads constructor(context: Context, attrs: A
     var touchY: Int = 0
 
     var isDrag: Boolean = false
+    val rotate: ObjectAnimator
 
 
     private var floatPlayMusicParams: WindowManager.LayoutParams
@@ -42,7 +43,6 @@ class FloatingPlayMusicView @JvmOverloads constructor(context: Context, attrs: A
         val layoutParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         playView.layoutParams = layoutParams
         addView(playView)
-
 
         floatPlayMusicParams = WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -62,7 +62,7 @@ class FloatingPlayMusicView @JvmOverloads constructor(context: Context, attrs: A
 
 
         //播放音频时候动画
-        val rotate = ObjectAnimator.ofFloat(circleImageView, "rotation", 0f, 360f)
+        rotate = ObjectAnimator.ofFloat(circleImageView, "rotation", 0f, 360f)
         rotate.duration = 5000
         rotate.interpolator = LinearInterpolator()
         rotate.repeatCount = -1
@@ -76,26 +76,34 @@ class FloatingPlayMusicView @JvmOverloads constructor(context: Context, attrs: A
 
 
         play.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                if (rotate.isStarted) {
-                    rotate.resume()
-                } else {
-                    rotate.start()
-                }
-            } else {
-                rotate.start()
-            }
+            startPlayAnimation()
             mListener?.onPlay()
         }
         pause.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                rotate.pause()
-            } else {
-                rotate.cancel()
-            }
+            stopPlayAnimation()
             mListener?.onPause()
         }
 
+    }
+
+    fun startPlayAnimation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (rotate.isStarted) {
+                rotate.resume()
+            } else {
+                rotate.start()
+            }
+        } else {
+            rotate.start()
+        }
+    }
+
+    fun stopPlayAnimation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            rotate.pause()
+        } else {
+            rotate.cancel()
+        }
     }
 
 
@@ -135,7 +143,6 @@ class FloatingPlayMusicView @JvmOverloads constructor(context: Context, attrs: A
                     floatPlayMusicParams.x = nowX - floatPlayMusicParams.width / 2
                     floatPlayMusicParams.y = nowY - floatPlayMusicParams.height / 2
                     windowManager.updateViewLayout(this, floatPlayMusicParams)
-
                 }
             }
             MotionEvent.ACTION_UP -> {

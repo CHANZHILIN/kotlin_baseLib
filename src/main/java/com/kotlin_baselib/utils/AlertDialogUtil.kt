@@ -14,7 +14,7 @@ import com.kotlin_baselib.R
 class AlertDialogUtil {
     companion object {
         private var mAlertDialogUtil: AlertDialogUtil? = null
-        var builder: AlertDialog.Builder? = null
+        private var builder: AlertDialog.Builder? = null
         fun getInstance(mContext: Context): AlertDialogUtil {
             if (mAlertDialogUtil == null) {
                 synchronized(this) {
