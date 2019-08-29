@@ -9,6 +9,7 @@ import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import com.kotlin_baselib.R
+import com.kotlin_baselib.audio.AudioTrackManager
 import com.kotlin_baselib.floatview.FloatingMusicService.Companion.mFloatDeleteView
 import com.kotlin_baselib.floatview.FloatingMusicService.Companion.windowManager
 import kotlinx.android.synthetic.main.layout_floating_play_music.view.*
@@ -76,12 +77,17 @@ class FloatingPlayMusicView @JvmOverloads constructor(context: Context, attrs: A
 
 
         play.setOnClickListener {
+            if (AudioTrackManager.getInstance().isPlaying()) return@setOnClickListener  //如果在播放中，则直接返回
             startPlayAnimation()
             mListener?.onPlay()
         }
         pause.setOnClickListener {
             stopPlayAnimation()
             mListener?.onPause()
+        }
+        edit.setOnClickListener { //编辑
+            stopPlayAnimation()
+            mListener?.onEdit()
         }
 
     }
@@ -195,11 +201,22 @@ class FloatingPlayMusicView @JvmOverloads constructor(context: Context, attrs: A
         return super.onTouchEvent(event)
     }
 
+    /**
+     * 移除悬浮窗
+     */
+    fun removeAllFloatingView(){
+        windowManager.removeViewImmediate(this)
+        windowManager.removeViewImmediate(mFloatDeleteView)
+        FloatingMusicService.isStarted = false
+        mListener?.onFinishService()
+    }
+
     var mListener: onStatusChange? = null
 
     interface onStatusChange {
         fun onPlay()
         fun onPause()
+        fun onEdit()
         fun onFinishService()
     }
 

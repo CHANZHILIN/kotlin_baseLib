@@ -170,7 +170,7 @@ private constructor(vararg permissions: String) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                 sInstance = this
                 // 自定义Activity
-                PermissionUtils.PermissionActivity.start(BaseApplication.instance)
+                PermissionActivity.start(BaseApplication.instance)
             }
         }
     }
@@ -221,8 +221,8 @@ private constructor(vararg permissions: String) {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             // 请求权限
-            val size = sInstance!!.mPermissionsRequest.size
-            requestPermissions(sInstance!!.mPermissionsRequest.toTypedArray(), 1)
+            val size = sInstance?.mPermissionsRequest?.size
+            requestPermissions(sInstance?.mPermissionsRequest?.toTypedArray(), 1)
         }
 
         override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -334,7 +334,7 @@ private constructor(vararg permissions: String) {
          */
         fun isGranted(vararg permissions: String): Boolean {
             // 防止数据为null
-            if (permissions != null && permissions.size != 0) {
+            if (permissions.size != 0) {
                 // 遍历全部需要申请的权限
                 for (permission in permissions) {
                     if (!isGranted(BaseApplication.instance, permission)) {

@@ -6,18 +6,19 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue
 
+
 /**
  *  Created by CHEN on 2019/6/20
  *  Email:1181785848@qq.com
  *  Package:com.kotlin_baselib.utils
  *  Introduce:  尺寸转换工具
  **/
-object  Dp2PxUtil {
+object Dp2PxUtil {
 
     fun dip2px(context: Context, dpValue: Float): Int {
         return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dpValue, context.resources.displayMetrics
+                TypedValue.COMPLEX_UNIT_DIP,
+                dpValue, context.resources.displayMetrics
         ).toInt()
     }
 
@@ -94,8 +95,8 @@ object  Dp2PxUtil {
     fun getStatusBarHeight(context: Context): Int {
         var result = 0
         val resourceId = context.resources.getIdentifier(
-            "status_bar_height", "dimen",
-            "android"
+                "status_bar_height", "dimen",
+                "android"
         )
         if (resourceId > 0) {
             result = context.resources.getDimensionPixelSize(resourceId)

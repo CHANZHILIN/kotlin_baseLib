@@ -50,7 +50,24 @@
         <item name="android:activityOpenExitAnimation">@null</item>
         <item name="android:activityCloseEnterAnimation">@null</item>
         <item name="android:activityCloseExitAnimation">@null</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        </style>
+    <!--Toolbar的Theme-->
+    <style name="toolbar_action_menu_overflow" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!--是否覆盖锚点-->
+        <item name="overlapAnchor">false</item>
+        <!--弹出层水平方向上的偏移，负值为距离右边的空隙-->
+        <item name="android:dropDownHorizontalOffset">-10dp</item>
+        <!-- 弹出层垂直方向上的偏移，负则会盖住Toolbar -->
+        <item name="android:dropDownVerticalOffset">5dp</item>
     </style>
+
+
+    <!--圆形按钮-->
+    <declare-styleable name="CircleButton">
+        <attr name="circle_background" format="color|reference" />
+        <attr name="circle_text" format="string|reference" />
+        <attr name="circle_textSize" format="dimension" />
+        <attr name="circle_textColor" format="color|reference" />
+    </declare-styleable>
 
 </resources>

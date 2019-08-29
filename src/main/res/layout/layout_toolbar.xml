@@ -11,17 +11,18 @@
         android:background="@color/colorPrimary"
         android:theme="@style/toolbar_action_menu_overflow"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:titleTextAppearance="@style/Toolbar.TitleText"></android.support.v7.widget.Toolbar>
-    <!--    <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:scaleType="centerInside"
+        app:title="@string/app_name"
+        app:titleTextAppearance="@style/Toolbar.TitleText"/>
 
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginRight="16dp"
-                android:layout_marginEnd="16dp"
-                android:src="@mipmap/search"
-                android:contentDescription="@string/right_search_icon"/>-->
+    <TextView
+        android:id="@+id/toolbar_rightTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        android:text="更多"
+        android:layout_gravity="center_vertical|right"/>
 
 </FrameLayout>

@@ -47,7 +47,8 @@ class AudioTrackManager {
         //指定音频源
         audioSource = AudioManager.STREAM_MUSIC
         //指定采样率(MediaRecoder 的采样率通常是8000Hz CD的通常是44100Hz 不同的Android手机硬件将能够以不同的采样率进行采样。其中11025是一个常见的采样率)
-        frequency = 44100
+        //设置音频采样率，44100是目前的标准，但是某些设备仍然支持22050，16000，11025
+        frequency = 16000
         //指定捕获音频的通道数目.在AudioFormat类中指定用于此的常量
         channelConfig = AudioFormat.CHANNEL_CONFIGURATION_MONO
         //指定音频量化位数 ,在AudioFormaat类中指定了以下各种可能的常量。通常我们选择ENCODING_PCM_16BIT和ENCODING_PCM_8BIT PCM代表的是脉冲编码调制，它实际上是原始音频样本。
@@ -55,7 +56,6 @@ class AudioTrackManager {
         audioFormat = AudioFormat.ENCODING_PCM_16BIT
         bufferSize = AudioTrack.getMinBufferSize(frequency, channelConfig, audioFormat)
     }
-
 
 
     /**
@@ -86,6 +86,10 @@ class AudioTrackManager {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun isPlaying(): Boolean {
+        return audioTrack?.playState == AudioTrack.PLAYSTATE_PLAYING
     }
 
 
@@ -131,6 +135,7 @@ class AudioTrackManager {
         try {
             android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO)
             audioTrack = AudioTrack(audioSource, frequency, channelConfig, audioFormat, bufferSize, AudioTrack.MODE_STREAM)
+
             val tempBuffer = ByteArray(bufferSize)
             var readCount = 0
             while (dis!!.available() > 0) {
@@ -160,7 +165,6 @@ class AudioTrackManager {
     }
 
 
-
     var mListener: onAudioStatusChange? = null
 
     interface onAudioStatusChange {
@@ -171,7 +175,6 @@ class AudioTrackManager {
     fun setOnAudioStatusChangeListener(listener: onAudioStatusChange) {
         mListener = listener
     }
-
 
 
 }

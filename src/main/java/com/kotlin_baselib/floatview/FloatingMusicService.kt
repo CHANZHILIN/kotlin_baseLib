@@ -5,8 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.support.annotation.Nullable
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import com.alibaba.android.arouter.launcher.ARouter
+import com.kotlin_baselib.api.Constants
 import com.kotlin_baselib.audio.AudioTrackManager
 import com.kotlin_baselib.utils.SdCardUtil
 import kotlinx.android.synthetic.main.layout_floating_play_music.view.*
@@ -29,8 +32,6 @@ class FloatingMusicService : Service() {
     }
 
     private lateinit var mFloatPlayMusicView: FloatingPlayMusicView
-
-    private var isPlayAudio = false
 
     var fileName: String? = null
 
@@ -75,26 +76,33 @@ class FloatingMusicService : Service() {
         mFloatPlayMusicView.setOnStatusChangeListener(object : FloatingPlayMusicView.onStatusChange {
             override fun onPlay() {
                 AudioTrackManager.getInstance().startPlay(SdCardUtil.recordDir.path + File.separator + fileName)
-                AudioTrackManager.getInstance()
-                    .setOnAudioStatusChangeListener(object : AudioTrackManager.onAudioStatusChange {
-                        override fun onPlay() {
-                            isPlayAudio = true
-                        }
+                AudioTrackManager.getInstance().setOnAudioStatusChangeListener(object : AudioTrackManager.onAudioStatusChange {
+                    override fun onPlay() {
+//                        mFloatPlayMusicView.startPlayAnimation()
+                    }
 
-                        override fun onStop() {
-                            isPlayAudio = false
-                            mFloatPlayMusicView.stopPlayAnimation()
-                        }
-                    })
+                    override fun onStop() {
+                        mFloatPlayMusicView.stopPlayAnimation()
+                    }
+                })
             }
 
             override fun onPause() {
-                isPlayAudio = false
+                mFloatPlayMusicView.stopPlayAnimation()
                 AudioTrackManager.getInstance().stopPlay()
             }
 
+            override fun onEdit() {
+//                mFloatPlayMusicView.stopPlayAnimation()
+                AudioTrackManager.getInstance().stopPlay()
+                mFloatPlayMusicView.removeAllFloatingView() //移除悬浮窗口
+                ARouter.getInstance()
+                        .build(Constants.EDIT_AUDIO_ACTIVITY_PATH)
+                        .withString("fileName", fileName)
+                        .navigation()
+            }
+
             override fun onFinishService() {   //关闭service的回调
-                if (isPlayAudio) AudioTrackManager.getInstance().stopPlay()  //需要把播放录音关掉
                 stopSelf()
             }
         })

@@ -3,6 +3,7 @@ package com.kotlin_baselib.utils
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.widget.EditText
 import com.kotlin_baselib.R
 
 /**
@@ -26,10 +27,14 @@ class AlertDialogUtil {
         }
     }
 
+    /**
+     * 普通对话框
+     */
     fun showAlertDialog(message: String, nevigationButton: String, positiveButton: String, dialogInterface1: DialogInterface.OnClickListener, dialogInterface2: DialogInterface.OnClickListener) {
         builder?.setMessage(message)
         builder?.setNegativeButton(nevigationButton, dialogInterface1)
         builder?.setPositiveButton(positiveButton, dialogInterface2)
         builder?.show()
     }
+
 }
