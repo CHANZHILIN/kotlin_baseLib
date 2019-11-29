@@ -67,6 +67,7 @@ abstract class BaseActivity<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
             finish()
         }
     }
+
     protected fun setTitle(title: String) {
         runOnUiThread {
             if (mToolbar != null)

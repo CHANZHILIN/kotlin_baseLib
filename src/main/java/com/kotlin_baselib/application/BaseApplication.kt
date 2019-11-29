@@ -1,8 +1,6 @@
 package com.kotlin_baselib.application
 
-import android.support.multidex.BuildConfig
 import android.support.multidex.MultiDexApplication
-import android.util.Log
 import com.alibaba.android.arouter.launcher.ARouter
 import com.kotlin_baselib.api.Constants
 import com.kotlin_baselib.utils.SdCardUtil
