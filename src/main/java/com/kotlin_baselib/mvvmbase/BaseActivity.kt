@@ -1,59 +1,52 @@
-package com.kotlin_baselib.base
+package com.kotlin_baselib.mvvmbase
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
-import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import com.alibaba.android.arouter.launcher.ARouter
 import com.kotlin_baselib.R
 import com.kotlin_baselib.loadingview.LoadingView
 import com.kotlin_baselib.utils.AndroidBugWorkaround
 
 /**
- *  Created by CHEN on 2019/6/12
+ *  Created by CHEN on 2019/8/28
  *  Email:1181785848@qq.com
- *  Package:com.kotlin_baselib.base
+ *  Package:com.kotlin_mvvm_library.base
  *  Introduce:
  **/
-abstract class BaseActivity<V : BaseView, M : BaseModel, P : BasePresenter<V, M>> : BaseView, AppCompatActivity() {
-    protected lateinit var mContext: BaseActivity<V, M, P>
+abstract class BaseActivity : AppCompatActivity() {
+
+    protected lateinit var mContext: BaseActivity
     protected lateinit var mloadingDialog: AlertDialog
     protected lateinit var mLoadingView: LoadingView
 
     protected var mToolbar: Toolbar? = null
 
-    protected lateinit var mPresenter: P
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-               window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-           }*/
-
         mContext = this
-        preSetContentView()     //在设置contentView时候，干一些事情，需要时重载
+        preSetContentView()//在设置contentView时候，干一些事情，需要时重载
         setContentView(getResId())
+        ARouter.getInstance().inject(this)
         AndroidBugWorkaround.assistActivity(this)       //解决虚拟导航栏遮盖问题
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.layout_loading_view, null)
         mLoadingView = dialogView.findViewById<LoadingView>(R.id.loading_view)
         mloadingDialog = AlertDialog
-                .Builder(mContext, R.style.CustomDialog)
-                .setView(dialogView)
-                .setCancelable(true)
-                .create()
+            .Builder(mContext, R.style.CustomDialog)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
 
         mToolbar = findViewById(R.id.toolbar)
 
         setSupportActionBar(mToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        mPresenter = createPresenter()
 
         // 这里把标题栏回退点击事件放在initEvent之前，是为了可以在子页面根据需要重写他的点击事件
         setBackClick()
@@ -62,42 +55,49 @@ abstract class BaseActivity<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
         initListener()
     }
 
+    protected fun startActivity(z: Class<*>) {
+        startActivity(Intent(applicationContext, z))
+    }
+
     private fun setBackClick() {
         mToolbar?.setNavigationOnClickListener {
             finish()
         }
     }
 
-    protected fun setTitle(title: String) {
-        runOnUiThread {
-            if (mToolbar != null)
-                mToolbar!!.title = title
-        }
-
-    }
-
-    /**
-     * @return 返回具体的Persenter
-     */
-    protected abstract fun createPresenter(): P
+    open fun preSetContentView() {}
 
     /**
      * 获取资源id
      */
-    protected abstract fun getResId(): Int
+    abstract fun getResId(): Int
 
     /**
      * 初始化数据
      */
-    protected abstract fun initData()
+    abstract fun initData()
 
     /**
-     * 初始化点击事件
+     * 初始化监听事件
      */
-    protected abstract fun initListener()
+    abstract fun initListener()
 
-    open fun preSetContentView() {}
+    /**
+     * 不带动画结束
+     */
+    protected fun finishSimple() {
+        super.finish()
+    }
 
+    protected fun finishResult(intent: Intent) {
+        setResult(RESULT_OK, intent)
+        this.finish()
+    }
+
+    protected fun finishResult() {
+        setResult(RESULT_OK)
+        this.finish()
+    }
 
     override fun onPause() {
         super.onPause()
@@ -109,7 +109,6 @@ abstract class BaseActivity<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
         if (mloadingDialog.isShowing) {
             mloadingDialog.dismiss()
         }
-        mPresenter.detachView()
     }
 
     /**
@@ -132,29 +131,5 @@ abstract class BaseActivity<V : BaseView, M : BaseModel, P : BasePresenter<V, M>
         }
     }
 
-    /**
-     * 不带动画结束
-     */
-    protected fun finishSimple() {
-        super.finish()
-    }
 
-    protected fun finishResult(intent: Intent) {
-        setResult(RESULT_OK, intent)
-        this.finish()
-    }
-
-    protected fun finishResult() {
-        setResult(RESULT_OK)
-        this.finish()
-    }
-
-    override fun onSuccess(msg: String) {
-        hideLoading()
-    }
-
-    override fun onError(code: Int, msg: String) {
-        hideLoading()
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show()
-    }
 }

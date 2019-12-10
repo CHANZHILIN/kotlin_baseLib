@@ -65,12 +65,13 @@ class CircleButton @JvmOverloads constructor(context: Context, attrs: AttributeS
         textPaint.isAntiAlias = true
         textPaint.textSize = textSize
 
+        a.recycle()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawCircle(measuredWidth / 2f, measuredWidth / 2f, measuredWidth / 2f - 20f, bgPaint)
-        canvas.drawCircle(measuredWidth / 2f, measuredWidth / 2f, measuredWidth / 2f - 16f, tranparentBgPaint)
+        canvas.drawCircle(measuredWidth / 2f, measuredWidth / 2f, measuredWidth / 2f - 18f, tranparentBgPaint)
         canvas.drawCircle(measuredWidth / 2f, measuredWidth / 2f, measuredWidth / 2f - 8f, bgOutCirclePaint)
 
         //根据中线算出baseLine的Y轴坐标，保证字体垂直居中

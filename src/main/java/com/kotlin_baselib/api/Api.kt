@@ -1,8 +1,7 @@
 package com.kotlin_baselib.api
 
-import com.kotlin_baselib.entity.BaseWebEntity
 import com.kotlin_baselib.entity.EmptyEntity
-import io.reactivex.Observer
+import com.kotlin_baselib.mvvmbase.ResponseData
 import retrofit2.http.POST
 
 /**
@@ -17,8 +16,8 @@ interface Api {
         const val BASE_IMAGE_URL = "http://admin.lgw.com/"    //线下图片
     }
 
-    @POST(Url.sendAuth)
-    fun versionUpdated(): Observer<BaseWebEntity<EmptyEntity>>
+    @POST(Url.versionUpdate)
+    suspend fun getVersionData(): ResponseData<EmptyEntity>
 
     /*    */
     /**

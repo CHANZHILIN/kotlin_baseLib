@@ -3,11 +3,9 @@ package com.kotlin_baselib.api
 import android.util.Log
 import com.google.gson.Gson
 import okhttp3.*
-import okhttp3.internal.Util.UTF_8
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.Buffer
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.nio.charset.Charset
@@ -15,19 +13,13 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
- * Created by CHEN on 2019/6/13
- * Email:1181785848@qq.com
- * Package:com.kotlin_baselib.api
+ *  Created by CHEN on 2019/8/28
+ *  Email:1181785848@qq.com
+ *  Package:com.kotlin_mvvm_librayr.http
  * Introduce:请求网络，拦截器
  */
-class ApiEngine private constructor() {
-    private val retrofit: Retrofit
-
-    val apiService: Api
-        get() = retrofit.create(Api::class.java)
-
-
-    init {
+object ApiEngine {
+    val apiService: Api by lazy {
         //日志拦截器
         val interceptor = object : Interceptor {
             @Throws(IOException::class)
@@ -47,11 +39,11 @@ class ApiEngine private constructor() {
                 }
 
                 Log.e(
-                    Constants.DEBUG_TAG,
-                    "==================================请求信息 start ===================================" + "\n"
-                            + "Url : " + request.url().url().toString() + "\n"
-                            + "Method: " + request.method() + "\n"
-                            + "Heads : " + request.headers()
+                        Constants.DEBUG_TAG,
+                        "==================================请求信息 start ===================================" + "\n"
+                                + "Url : " + request.url().url().toString() + "\n"
+                                + "Method: " + request.method() + "\n"
+                                + "Heads : " + request.headers()
                 )
 
                 val requestBody = request.body() ?: return
@@ -71,8 +63,8 @@ class ApiEngine private constructor() {
                 }
 
                 Log.e(
-                    Constants.DEBUG_TAG,
-                    "==================================请求信息  end  ==================================="
+                        Constants.DEBUG_TAG,
+                        "==================================请求信息  end  ==================================="
                 )
             }
 
@@ -95,7 +87,7 @@ class ApiEngine private constructor() {
                 }
 
                 val buffer = source.buffer()
-                var charset: Charset? = UTF_8
+                var charset: Charset? = Charset.forName("UTF-8")
                 val contentType = responseBody.contentType()
                 if (contentType != null) {
                     charset = contentType.charset()
@@ -103,10 +95,10 @@ class ApiEngine private constructor() {
                 if (contentLength != 0L) {
                     val result = buffer.clone().readString(charset!!)
                     Log.e(
-                        Constants.DEBUG_TAG,
-                        "==================================返回消息 start ===================================" + "\n"
-                                + "Response: " + result + "\n"
-                                + "==================================返回消息  end  ==================================="
+                            Constants.DEBUG_TAG,
+                            "==================================返回消息 start ===================================" + "\n"
+                                    + "Response: " + result + "\n"
+                                    + "==================================返回消息  end  ==================================="
                     )
                 }
             }
@@ -117,7 +109,7 @@ class ApiEngine private constructor() {
         val cookieJar = object : CookieJar {
             private val cookieStore = HashMap<String, List<Cookie>>()
 
-            //Tip：這裡key必須是String
+            //Tip：这里key必须是String
             override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
                 cookieStore[url.host()] = cookies
             }
@@ -129,11 +121,11 @@ class ApiEngine private constructor() {
         }
 
         val builder = OkHttpClient.Builder()
-            .connectTimeout(12, TimeUnit.SECONDS)
-            .readTimeout(12, TimeUnit.SECONDS)
-            .writeTimeout(12, TimeUnit.SECONDS)
-            .cookieJar(cookieJar)
-            .addInterceptor(interceptor)
+                .connectTimeout(12, TimeUnit.SECONDS)
+                .readTimeout(12, TimeUnit.SECONDS)
+                .writeTimeout(12, TimeUnit.SECONDS)
+                .cookieJar(cookieJar)
+                .addInterceptor(interceptor)
 
         // 上线时，修改下面注释
         //当且仅当构建模式是debug的时候，才打印输出请求body信息
@@ -142,30 +134,14 @@ class ApiEngine private constructor() {
         }
         val client = builder.build()
 
-        retrofit = Retrofit.Builder()
-            .baseUrl(Api.BASE_URL)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create(Gson()))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-
+        val retrofit: Retrofit = Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(Gson()))
+//            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                .build()
+        return@lazy retrofit.create(Api::class.java)
     }
 
-    companion object {
-        @Volatile
-        private var apiEngine: ApiEngine? = null
 
-        val instance: ApiEngine?
-            get() {
-                if (apiEngine == null) {
-                    synchronized(ApiEngine::class.java) {
-                        if (apiEngine == null) {
-                            apiEngine = ApiEngine()
-                        }
-                    }
-                }
-                return apiEngine
-            }
-
-    }
 }

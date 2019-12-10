@@ -1,12 +1,12 @@
 package com.kotlin_baselib.utils
 
 import android.graphics.Color
-import android.support.design.widget.Snackbar
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.google.android.material.snackbar.Snackbar
 import com.kotlin_baselib.R
 
 /**

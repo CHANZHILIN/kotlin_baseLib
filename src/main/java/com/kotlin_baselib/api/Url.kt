@@ -10,5 +10,6 @@ interface Url {
     companion object {
         /* 登录注册相关*/
         const val sendAuth = "Auth/sendAuth"      //发送验证码
+        const val versionUpdate = "index/versionsUpdate"      //版本更新
     }
 }

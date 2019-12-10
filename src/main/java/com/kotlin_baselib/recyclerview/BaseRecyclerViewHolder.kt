@@ -1,8 +1,8 @@
 package com.kotlin_baselib.recyclerview
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  *  Created by CHEN on 2019/6/17
@@ -10,7 +10,8 @@ import android.view.View
  *  Package:com.kotlin_baselib.recyclerview
  *  Introduce:
  **/
-abstract class BaseRecyclerViewHolder<T>(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {
+abstract class BaseRecyclerViewHolder<T>(itemView: View, context: Context) :
+    RecyclerView.ViewHolder(itemView) {
     private var itemListener: OnItemListener? = null
     private var mContext: Context? = null
 

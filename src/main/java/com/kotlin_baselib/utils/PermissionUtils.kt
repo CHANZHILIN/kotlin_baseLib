@@ -2,7 +2,6 @@ package com.kotlin_baselib.utils
 
 import android.Manifest
 import android.app.Activity
-import android.app.Fragment
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,9 +9,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.support.annotation.RequiresApi
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.kotlin_baselib.application.BaseApplication
 import java.util.*
 
@@ -221,11 +220,15 @@ private constructor(vararg permissions: String) {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             // 请求权限
-            val size = sInstance?.mPermissionsRequest?.size
+//            val size = sInstance?.mPermissionsRequest?.size
             requestPermissions(sInstance?.mPermissionsRequest?.toTypedArray(), 1)
         }
 
-        override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<String>,
+            grantResults: IntArray
+        ) {
             sInstance!!.onRequestPermissionsResultCommon(this) // 处理回调
             finish() // 关闭当前页面
         }
@@ -354,7 +357,10 @@ private constructor(vararg permissions: String) {
          */
         private fun isGranted(context: Context, permission: String): Boolean {
             // SDK 版本小于 23 则表示直接通过 || 检查是否通过权限
-            return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(context, permission)
+            return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
+                context,
+                permission
+            )
         }
 
         /**
@@ -400,8 +406,3 @@ private constructor(vararg permissions: String) {
         }
     }
 }
-/**
- * 请求权限
- *
- * @param activity [Fragment.getActivity]
- */
