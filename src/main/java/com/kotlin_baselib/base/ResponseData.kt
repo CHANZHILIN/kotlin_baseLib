@@ -1,4 +1,4 @@
-package com.kotlin_baselib.mvvmbase
+package com.kotlin_baselib.base
 
 /**
  *  Created by CHEN on 2019/8/28

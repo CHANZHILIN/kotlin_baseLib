@@ -1,4 +1,4 @@
-package com.kotlin_baselib.mvvmbase
+package com.kotlin_baselib.base
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

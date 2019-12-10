@@ -1,4 +1,4 @@
-package com.kotlin_baselib.mvvmbase
+package com.kotlin_baselib.base
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -32,7 +32,7 @@ abstract class BaseActivity : AppCompatActivity() {
         preSetContentView()//在设置contentView时候，干一些事情，需要时重载
         setContentView(getResId())
         ARouter.getInstance().inject(this)
-        AndroidBugWorkaround.assistActivity(this)       //解决虚拟导航栏遮盖问题
+//        AndroidBugWorkaround.assistActivity(this)       //解决虚拟导航栏遮盖问题
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.layout_loading_view, null)

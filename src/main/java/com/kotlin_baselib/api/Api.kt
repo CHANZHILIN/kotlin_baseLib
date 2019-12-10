@@ -1,7 +1,7 @@
 package com.kotlin_baselib.api
 
 import com.kotlin_baselib.entity.EmptyEntity
-import com.kotlin_baselib.mvvmbase.ResponseData
+import com.kotlin_baselib.base.ResponseData
 import retrofit2.http.POST
 
 /**

@@ -1,4 +1,4 @@
-package com.kotlin_baselib.mvvmbase
+package com.kotlin_baselib.base
 
 import com.kotlin_baselib.api.ApiEngine
 import com.kotlin_baselib.entity.EmptyEntity

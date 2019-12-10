@@ -1,4 +1,4 @@
-package com.kotlin_baselib.mvvmbase
+package com.kotlin_baselib.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import com.kotlin_baselib.utils.AndroidBugWorkaround
 
 /**
  *  Created by CHEN on 2019/8/28
@@ -16,10 +17,17 @@ import androidx.lifecycle.ViewModelStoreOwner
  **/
 abstract class BaseViewModelFragment<VM : BaseViewModel> : Fragment() {
 
+    protected lateinit var mContext: BaseActivity
+
     protected lateinit var viewModel: VM
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getResId(), container, false)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mContext = activity as BaseActivity
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

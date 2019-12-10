@@ -1,4 +1,4 @@
-package com.kotlin_baselib.mvvmbase
+package com.kotlin_baselib.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

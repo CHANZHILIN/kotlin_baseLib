@@ -1,4 +1,4 @@
-package com.kotlin_baselib.mvvmbase
+package com.kotlin_baselib.base
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope

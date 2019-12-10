@@ -35,7 +35,7 @@ import android.widget.FrameLayout
  * //alter by CHEN_ on 2018/10/24
  * Created by CHEN_ on 2018/8/11.
  */
-class AndroidBugWorkaround private constructor(private val activity: Activity) {
+class AndroidBugWorkaround private constructor(activity: Activity) {
     private val mChildOfContent: View                       //被监听的视图
     private var usableHeightPrevious: Int = 0               //视图变化前的可用高度
     private val frameLayoutParams: FrameLayout.LayoutParams
@@ -76,6 +76,4 @@ class AndroidBugWorkaround private constructor(private val activity: Activity) {
         mChildOfContent.getWindowVisibleDisplayFrame(r)
         return r.bottom
     }
-
-
 }

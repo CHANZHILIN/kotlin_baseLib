@@ -1,4 +1,4 @@
-package com.kotlin_baselib.mvvmbase
+package com.kotlin_baselib.base
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
