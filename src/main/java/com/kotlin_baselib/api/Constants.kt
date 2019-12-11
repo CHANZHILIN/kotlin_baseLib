@@ -10,6 +10,8 @@ interface Constants {
     companion object {
         const val DEBUG_TAG = "CHEN"
         const val DEBUG = true
+        const val ITEM_SPACE = 8     //每个item之间的间距
+        const val SPAN_COUNT = 3     //瀑布流的列数
         const val LOGIN_ACTIVITY_PATH = "/soul_login/loginActivity"   // 登录页面
 
 
