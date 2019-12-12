@@ -1,9 +1,11 @@
 package com.kotlin_baselib.application
 
 import androidx.multidex.MultiDexApplication
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.alibaba.android.arouter.launcher.ARouter
 import com.kotlin_baselib.api.Constants
 import com.kotlin_baselib.utils.SdCardUtil
+import kotlin.concurrent.thread
 
 /**
  * Created by CHEN on 2019/6/13
@@ -23,10 +25,19 @@ class BaseApplication : MultiDexApplication() {
             ARouter.openDebug()
         }
         ARouter.init(this)//初始化
-        //Module类的APP初始化
-        modulesApplicationInit()
-        //初始化项目文件夹
-        SdCardUtil.initFileDir(this);
+
+
+        Runnable {
+            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND)
+
+
+            //Module类的APP初始化
+            modulesApplicationInit()
+            //初始化项目文件夹
+            SdCardUtil.initFileDir(this);
+        }
+
+
     }
 
     override fun onTerminate() {

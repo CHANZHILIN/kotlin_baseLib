@@ -127,10 +127,10 @@ fun <T : IListItem> RecyclerView.setMutiUp(
 
     val multiAdapter by lazy {
         MultiAdapter(items, listItems, { holder, item ->
-            var listItem: ListItem<T>? = getListItem(listItems, item)
+            val listItem: ListItem<T>? = getListItem(listItems, item)
             listItem?.bindHolder?.invoke(holder, item)
         }, { item ->
-            var listItem: ListItem<T>? = getListItem(listItems, item)
+            val listItem: ListItem<T>? = getListItem(listItems, item)
             listItem?.itemClick?.invoke(item)
         })
     }

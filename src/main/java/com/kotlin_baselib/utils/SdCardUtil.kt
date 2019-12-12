@@ -154,7 +154,7 @@ object SdCardUtil {
     /**
      * 获取指定目录下的所有文件名
      */
-    fun getFilesAllName(path: String): List<String> {
+    fun getFilesAllName(path: String): MutableList<String> {
         val file = File(path)
         val files = file.listFiles()
         val list = ArrayList<String>()
