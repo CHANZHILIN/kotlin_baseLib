@@ -23,6 +23,14 @@ open class BaseRepository {
         }
     }
 
+    /**
+     * 获取本地数据
+     */
+    suspend fun <T : Any> requestLocal(call: suspend () -> T): T {
+        return withContext(Dispatchers.IO) { call.invoke() }
+    }
+
+
     class TokenInvalidException(msg: String = "token invalid") : Exception(msg)
     class NetWorkInvalidException(msg: String = "network invalid") : Exception(msg)
     class InternalServerErrorException(msg: String = "internal server error") : Exception(msg)

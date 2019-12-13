@@ -32,6 +32,7 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api 'androidx.recyclerview:recyclerview:1.1.0'
     api 'com.google.android.material:material:1.2.0-alpha02'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'androidx.test:runner:1.2.0'
@@ -42,7 +43,7 @@ dependencies {
 
     //Glide加载图片
     api 'com.github.bumptech.glide:glide:4.8.0'
-    kapt  'com.github.bumptech.glide:compiler:4.8.0'
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
 
 
     api 'androidx.appcompat:appcompat:1.2.0-alpha01'
@@ -63,7 +64,6 @@ dependencies {
         exclude group: 'com.android.support'
     }
     kapt 'com.alibaba:arouter-compiler:1.2.1'
-
 
 
 }

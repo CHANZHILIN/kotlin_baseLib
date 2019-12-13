@@ -4,4 +4,7 @@
     <string name="right_search_icon">右侧搜索图标</string>
     <string name="start">开始</string>
     <string name="more">更多</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
