@@ -14,8 +14,11 @@ import com.kotlin_baselib.R
  *  Package:com.kotlin_baselib.view
  *  Introduce:
  **/
-class CircleButton @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : ImageButton(context, attrs, defStyleAttr) {
+class CircleButton @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : ImageButton(context, attrs, defStyleAttr) {
     private var bgPaint: Paint
     private var bgOutCirclePaint: Paint
     private var textPaint: Paint
@@ -34,10 +37,15 @@ class CircleButton @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         text = context.getString(R.string.start)
 
-        val a = context.obtainStyledAttributes(attrs,
-                R.styleable.CircleButton, defStyleAttr, 0)
+        val a = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.CircleButton, defStyleAttr, 0
+        )
 
-        circleBackground = a.getColor(R.styleable.CircleButton_circle_background, context.resources.getColor(R.color.colorPrimary));
+        circleBackground = a.getColor(
+            R.styleable.CircleButton_circle_background,
+            context.resources.getColor(R.color.colorPrimary)
+        );
         circleTextColor = a.getColor(R.styleable.CircleButton_circle_textColor, Color.WHITE)
         text = a.getText(R.styleable.CircleButton_circle_text) as String
         textSize = a.getDimension(R.styleable.CircleButton_circle_textSize, 34f)
@@ -71,14 +79,29 @@ class CircleButton @JvmOverloads constructor(context: Context, attrs: AttributeS
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawCircle(measuredWidth / 2f, measuredWidth / 2f, measuredWidth / 2f - 20f, bgPaint)
-        canvas.drawCircle(measuredWidth / 2f, measuredWidth / 2f, measuredWidth / 2f - 18f, tranparentBgPaint)
-        canvas.drawCircle(measuredWidth / 2f, measuredWidth / 2f, measuredWidth / 2f - 8f, bgOutCirclePaint)
+        canvas.drawCircle(
+            measuredWidth / 2f,
+            measuredWidth / 2f,
+            measuredWidth / 2f - 18f,
+            tranparentBgPaint
+        )
+        canvas.drawCircle(
+            measuredWidth / 2f,
+            measuredWidth / 2f,
+            measuredWidth / 2f - 8f,
+            bgOutCirclePaint
+        )
 
         //根据中线算出baseLine的Y轴坐标，保证字体垂直居中
         val fm = textPaint.getFontMetricsInt()
         val baseLineY = measuredHeight / 2 + (fm.bottom - fm.top) / 2 - fm.bottom
 
-        canvas.drawText(text, (measuredWidth - textPaint.measureText(text)) / 2f, baseLineY.toFloat(), textPaint)
+        canvas.drawText(
+            text,
+            (measuredWidth - textPaint.measureText(text)) / 2f,
+            baseLineY.toFloat(),
+            textPaint
+        )
     }
 
     fun setButtonText(text: String) {

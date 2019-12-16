@@ -19,6 +19,7 @@ interface Api {
     @POST(Url.versionUpdate)
     suspend fun getVersionData(): ResponseData<EmptyEntity>
 
+
     /*    */
     /**
      * 版本更新

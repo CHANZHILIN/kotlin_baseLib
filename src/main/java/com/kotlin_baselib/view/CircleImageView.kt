@@ -16,7 +16,11 @@ import com.kotlin_baselib.R
  *  Package:com.kotlin_baselib.view
  *  Introduce:  圆形图片
  **/
-class CircleImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : AppCompatImageView(context, attrs, defStyle) {
+class CircleImageView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : AppCompatImageView(context, attrs, defStyle) {
 
 
     companion object {
@@ -76,13 +80,18 @@ class CircleImageView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     init {
 
-        val a = context.obtainStyledAttributes(attrs,
-                R.styleable.CircleImageView, defStyle, 0)
+        val a = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.CircleImageView, defStyle, 0
+        )
 
         mBorderWidth = a.getDimensionPixelSize(
-                R.styleable.CircleImageView_border_width, DEFAULT_BORDER_WIDTH)
-        mBorderColor = a.getColor(R.styleable.CircleImageView_border_color,
-                DEFAULT_BORDER_COLOR)
+            R.styleable.CircleImageView_border_width, DEFAULT_BORDER_WIDTH
+        )
+        mBorderColor = a.getColor(
+            R.styleable.CircleImageView_border_color,
+            DEFAULT_BORDER_COLOR
+        )
 
         a.recycle()    //记得回收
 
@@ -105,8 +114,11 @@ class CircleImageView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     override fun setScaleType(scaleType: ScaleType) {
         if (scaleType != SCALE_TYPE) {
-            throw IllegalArgumentException(String.format(
-                    "ScaleType %s not supported.", scaleType))
+            throw IllegalArgumentException(
+                String.format(
+                    "ScaleType %s not supported.", scaleType
+                )
+            )
         }
     }
 
@@ -115,11 +127,15 @@ class CircleImageView @JvmOverloads constructor(context: Context, attrs: Attribu
             return
         }
 
-        canvas.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), mDrawableRadius,
-                mBitmapPaint)
+        canvas.drawCircle(
+            (width / 2).toFloat(), (height / 2).toFloat(), mDrawableRadius,
+            mBitmapPaint
+        )
         if (mBorderWidth != 0) {
-            canvas.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), mBorderRadius,
-                    mBorderPaint)
+            canvas.drawCircle(
+                (width / 2).toFloat(), (height / 2).toFloat(), mBorderRadius,
+                mBorderPaint
+            )
         }
     }
 
@@ -165,15 +181,21 @@ class CircleImageView @JvmOverloads constructor(context: Context, attrs: Attribu
             val bitmap: Bitmap
 
             if (drawable is ColorDrawable) {
-                bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION,
-                        COLORDRAWABLE_DIMENSION, BITMAP_CONFIG)
+                bitmap = Bitmap.createBitmap(
+                    COLORDRAWABLE_DIMENSION,
+                    COLORDRAWABLE_DIMENSION, BITMAP_CONFIG
+                )
             } else {
                 if (drawable.intrinsicWidth > 0) {
-                    bitmap = Bitmap.createBitmap(drawable.intrinsicWidth,
-                            drawable.intrinsicHeight, BITMAP_CONFIG)
+                    bitmap = Bitmap.createBitmap(
+                        drawable.intrinsicWidth,
+                        drawable.intrinsicHeight, BITMAP_CONFIG
+                    )
                 } else {
-                    bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION,
-                            COLORDRAWABLE_DIMENSION, BITMAP_CONFIG)
+                    bitmap = Bitmap.createBitmap(
+                        COLORDRAWABLE_DIMENSION,
+                        COLORDRAWABLE_DIMENSION, BITMAP_CONFIG
+                    )
                 }
             }
 
@@ -197,8 +219,10 @@ class CircleImageView @JvmOverloads constructor(context: Context, attrs: Attribu
             return
         }
 
-        mBitmapShader = BitmapShader(mBitmap!!, Shader.TileMode.CLAMP,
-                Shader.TileMode.CLAMP)
+        mBitmapShader = BitmapShader(
+            mBitmap!!, Shader.TileMode.CLAMP,
+            Shader.TileMode.CLAMP
+        )
 
         mBitmapPaint.isAntiAlias = true
         mBitmapPaint.shader = mBitmapShader
@@ -212,12 +236,21 @@ class CircleImageView @JvmOverloads constructor(context: Context, attrs: Attribu
         mBitmapWidth = mBitmap!!.width
 
         mBorderRect.set(0f, 0f, width.toFloat(), height.toFloat())
-        mBorderRadius = Math.min((mBorderRect.height() - mBorderWidth) / 2,
-                (mBorderRect.width() - mBorderWidth) / 2)
+        mBorderRadius = Math.min(
+            (mBorderRect.height() - mBorderWidth) / 2,
+            (mBorderRect.width() - mBorderWidth) / 2
+        )
 
-        mDrawableRect.set(mBorderWidth.toFloat(), mBorderWidth.toFloat(), mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth)
-        mDrawableRadius = Math.min(mDrawableRect.height() / 2,
-                mDrawableRect.width() / 2)
+        mDrawableRect.set(
+            mBorderWidth.toFloat(),
+            mBorderWidth.toFloat(),
+            mBorderRect.width() - mBorderWidth,
+            mBorderRect.height() - mBorderWidth
+        )
+        mDrawableRadius = Math.min(
+            mDrawableRect.height() / 2,
+            mDrawableRect.width() / 2
+        )
 
         updateShaderMatrix()
         invalidate()
@@ -239,8 +272,10 @@ class CircleImageView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
         mShaderMatrix.setScale(scale, scale)
-        mShaderMatrix.postTranslate(((dx + 0.5f).toInt() + mBorderWidth).toFloat(),
-                ((dy + 0.5f).toInt() + mBorderWidth).toFloat())
+        mShaderMatrix.postTranslate(
+            ((dx + 0.5f).toInt() + mBorderWidth).toFloat(),
+            ((dy + 0.5f).toInt() + mBorderWidth).toFloat()
+        )
 
         mBitmapShader!!.setLocalMatrix(mShaderMatrix)
     }

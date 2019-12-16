@@ -9,7 +9,7 @@ import com.kotlin_baselib.application.BaseApplication
 /**
  *  Created by CHEN on 2019/12/13
  *  Email:1181785848@qq.com
- *  Introduce:
+ *  Introduce:  屏幕工具类
  **/
 class ScreenUtils {
 
