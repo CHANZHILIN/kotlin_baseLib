@@ -1,8 +1,16 @@
 package com.kotlin_baselib.view
 
 import android.content.Context
+import android.graphics.*
+import android.text.TextPaint
+import android.text.TextUtils
 import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
+import java.util.*
 
 /**
  *  Created by CHEN on 2019/12/16
@@ -17,7 +25,6 @@ class ResizableImageView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val d = getDrawable()
-
         if (d != null) {
             // ceil not round - avoid thin vertical gaps along the left/right edges
             val width = MeasureSpec.getSize(widthMeasureSpec)

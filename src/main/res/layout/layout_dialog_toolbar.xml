@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/dialog_toolbar_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="start|center_vertical"
+        android:src="@mipmap/close" />
+
+    <TextView
+        android:id="@+id/dialog_type_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/app_name"
+        android:textSize="15sp" />
+
+
+    <ImageView
+        android:id="@+id/dialog_toolbar_done"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical|end"
+        android:src="@mipmap/right" />
+
+</FrameLayout>

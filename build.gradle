@@ -66,4 +66,7 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.2.1'
 
 
+    //颜色选择器
+    api 'com.github.QuadFlask:colorpicker:0.0.13'
+
 }
