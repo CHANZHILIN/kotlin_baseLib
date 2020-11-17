@@ -78,7 +78,7 @@ class FloatingMusicService : Service() {
                 AudioTrackManager.getInstance()
                     .startPlay(SdCardUtil.recordDir.path + File.separator + fileName)
                 AudioTrackManager.getInstance()
-                    .setOnAudioStatusChangeListener(object : AudioTrackManager.onAudioStatusChange {
+                    .setOnAudioStatusChangeListener(object : AudioTrackManager.OnAudioStateChange {
                         override fun onPlay() {
 //                        mFloatPlayMusicView.startPlayAnimation()
                         }

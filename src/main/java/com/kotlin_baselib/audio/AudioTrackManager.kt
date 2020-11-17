@@ -166,14 +166,14 @@ class AudioTrackManager {
     }
 
 
-    var mListener: onAudioStatusChange? = null
+    var mListener: OnAudioStateChange? = null
 
-    interface onAudioStatusChange {
+    interface OnAudioStateChange {
         fun onPlay()
         fun onStop()
     }
 
-    fun setOnAudioStatusChangeListener(listener: onAudioStatusChange) {
+    fun setOnAudioStatusChangeListener(listener: OnAudioStateChange) {
         mListener = listener
     }
 

@@ -1,16 +1,9 @@
 package com.kotlin_baselib.view
 
 import android.content.Context
-import android.graphics.*
-import android.text.TextPaint
-import android.text.TextUtils
 import android.util.AttributeSet
-import android.view.MotionEvent
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import java.util.*
+import androidx.appcompat.widget.AppCompatImageView
+import kotlin.math.ceil
 
 /**
  *  Created by CHEN on 2019/12/16
@@ -21,16 +14,19 @@ class ResizableImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : ImageView(context, attrs, defStyle) {
+) : AppCompatImageView(context, attrs, defStyle) {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val d = getDrawable()
+        val d = drawable
         if (d != null) {
             // ceil not round - avoid thin vertical gaps along the left/right edges
             val width = MeasureSpec.getSize(widthMeasureSpec)
             //高度根据使得图片的宽度充满屏幕计算而得
             val height =
-                Math.ceil((width.toFloat() * d.getIntrinsicHeight().toFloat() / d.getIntrinsicWidth().toFloat()).toDouble())
+                ceil(
+                    (width.toFloat() * d.intrinsicHeight.toFloat() / d.intrinsicWidth
+                        .toFloat()).toDouble()
+                )
                     .toInt()
             setMeasuredDimension(width, height)
         } else {

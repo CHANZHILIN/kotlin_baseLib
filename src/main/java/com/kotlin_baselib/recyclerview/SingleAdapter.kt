@@ -12,18 +12,18 @@ import androidx.recyclerview.widget.RecyclerView
  *  Introduce:
  **/
 class SingleAdapter<T>(
-    items: List<T>,
+    items: MutableList<T>,
     private val layoutResId: Int,
-    private val bindHolder: (Holder, T) -> Unit
+    private val bindHolder: (position: Int, Holder, T) -> Unit
 ) : AbstractAdapter<T>(items) {
 
-    private var itemClick: (T) -> Unit = {}
+    private var itemClick: ((position: Int, T) -> Unit)? = null
 
     constructor(
-        items: List<T>,
+        items: MutableList<T>,
         layoutResId: Int,
-        bindHolder: (Holder, T) -> Unit,
-        itemClick: (T) -> Unit = {}
+        bindHolder: (position: Int, Holder, T) -> Unit,
+        itemClick: ((position: Int, T) -> Unit)? = null
     ) : this(items, layoutResId, bindHolder) {
         this.itemClick = itemClick
     }
@@ -36,28 +36,28 @@ class SingleAdapter<T>(
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        bindHolder(holder, itemList[position])
+        bindHolder(position, holder, itemList[position])
     }
 
     override fun onItemClick(itemView: View, position: Int) {
-        itemClick(itemList[position])
+        itemClick?.invoke(position, itemList[position])
     }
 }
 
 
 class MultiAdapter<T : IListItem>(
-    private val items: List<T>,
-    private val bindHolder: (Holder, T) -> Unit
+    private val items: MutableList<T>,
+    private val bindHolder: (position: Int, Holder, T) -> Unit
 ) : AbstractAdapter<T>(items) {
 
-    private var itemClick: (T) -> Unit = {}
+    private var itemClick: ((position: Int, T) -> Unit)? = null
     private lateinit var listItems: Array<out ListItem<T>>
 
     constructor(
-        items: List<T>,
+        items: MutableList<T>,
         listItems: Array<out ListItem<T>>,
-        bindHolder: (Holder, T) -> Unit,
-        itemClick: (T) -> Unit = {}
+        bindHolder: (position: Int, Holder, T) -> Unit,
+        itemClick: ((position: Int, T) -> Unit)? = null
     ) : this(items, bindHolder) {
         this.itemClick = itemClick
         this.listItems = listItems
@@ -84,11 +84,11 @@ class MultiAdapter<T : IListItem>(
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        bindHolder(holder, itemList[position])
+        bindHolder(position, holder, itemList[position])
     }
 
     override fun onItemClick(itemView: View, position: Int) {
-        itemClick(itemList[position])
+        itemClick?.invoke(position, itemList[position])
     }
 }
 
@@ -96,22 +96,22 @@ class MultiAdapter<T : IListItem>(
  * 拓展函数
  * 单个布局
  */
-fun <T> RecyclerView.setSingleUp(
-    items: List<T>,
-    layoutResId: Int,
-    manager: RecyclerView.LayoutManager = LinearLayoutManager(this.context),
-    bindHolder: (AbstractAdapter.Holder, T) -> Unit,
-    itemClick: (T) -> Unit = {}
+fun <T> RecyclerView.setSingleItemUp(
+    items: MutableList<T>,  //数据
+    layoutResId: Int,       //item布局id
+    bindHolder: (position: Int, AbstractAdapter.Holder, T) -> Unit,//绑定布局
+    manager: RecyclerView.LayoutManager? = null,
+    itemClick: ((position: Int, T) -> Unit)? = null //点击事件
 
-): AbstractAdapter<T> {
+): SingleAdapter<T> {
     val singleAdapter by lazy {
-        SingleAdapter(items, layoutResId, { holder, item ->
-            bindHolder(holder, item)
-        }, {
-            itemClick(it)
+        SingleAdapter(items, layoutResId, { position, holder, item ->
+            bindHolder(position, holder, item)
+        }, { position, it ->
+            itemClick?.invoke(position, it)
         })
     }
-    layoutManager = manager
+    layoutManager = manager ?: LinearLayoutManager(this.context)
     adapter = singleAdapter
     return singleAdapter
 }
@@ -119,22 +119,24 @@ fun <T> RecyclerView.setSingleUp(
 /**
  * 多个布局
  */
-fun <T : IListItem> RecyclerView.setMutiUp(
-    items: List<T>,
-    manager: RecyclerView.LayoutManager = LinearLayoutManager(this.context),
+fun <T : IListItem> RecyclerView.setMultiItemUp(
+    items: MutableList<T>,
+    manager: RecyclerView.LayoutManager? = null,
     vararg listItems: ListItem<T>
-): AbstractAdapter<T> {
+): MultiAdapter<T> {
 
     val multiAdapter by lazy {
-        MultiAdapter(items, listItems, { holder, item ->
-            val listItem: ListItem<T>? = getListItem(listItems, item)
-            listItem?.bindHolder?.invoke(holder, item)
-        }, { item ->
-            val listItem: ListItem<T>? = getListItem(listItems, item)
-            listItem?.itemClick?.invoke(item)
-        })
+        MultiAdapter(items, listItems,
+            { position, holder, item ->
+                val listItem: ListItem<T>? = getListItem(listItems, item)
+                listItem?.bindHolder?.invoke(position, holder, item)
+            },
+            { position, item ->
+                val listItem: ListItem<T>? = getListItem(listItems, item)
+                listItem?.itemClick?.invoke(position, item)
+            })
     }
-    layoutManager = manager
+    layoutManager = manager ?: LinearLayoutManager(this.context)
     adapter = multiAdapter
     return multiAdapter
 }
@@ -152,13 +154,13 @@ private fun <T : IListItem> getListItem(listItems: Array<out ListItem<T>>, item:
 
 class ListItem<T>(
     val layoutResId: Int,
-    val bindHolder: (holder: AbstractAdapter.Holder, item: T) -> Unit,
-    val itemClick: (item: T) -> Unit = {}
+    val bindHolder: (position: Int, holder: AbstractAdapter.Holder, item: T) -> Unit,
+    val itemClick: ((position: Int, T) -> Unit)? = null
 )
 
 
 interface IListItem {
-    fun getType(): Int
+    fun getType(): Int = 0
 }
 
 /**
@@ -172,7 +174,7 @@ class ListItemAdapter<T>(var data: T, private val viewType: Int) : IListItem {
 }
 
 /**
- * 中缀调用函数
+ * 中缀调用函数,添加布局
  */
 infix fun ViewGroup.inflate(layoutResId: Int): View =
     LayoutInflater.from(context).inflate(layoutResId, this, false)

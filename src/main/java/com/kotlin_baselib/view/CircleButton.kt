@@ -5,7 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.widget.ImageButton
+import androidx.appcompat.widget.AppCompatImageButton
 import com.kotlin_baselib.R
 
 /**
@@ -18,7 +18,7 @@ class CircleButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : ImageButton(context, attrs, defStyleAttr) {
+) : AppCompatImageButton(context, attrs, defStyleAttr) {
     private var bgPaint: Paint
     private var bgOutCirclePaint: Paint
     private var textPaint: Paint

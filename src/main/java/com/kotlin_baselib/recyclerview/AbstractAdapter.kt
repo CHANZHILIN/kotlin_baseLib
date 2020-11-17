@@ -1,5 +1,6 @@
 package com.kotlin_baselib.recyclerview
 
+import android.util.Log
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
  *  Email:1181785848@qq.com
  *  Introduce:
  **/
-abstract class AbstractAdapter<T> constructor(protected var itemList: List<T>)
-    : RecyclerView.Adapter<AbstractAdapter.Holder>() {
+abstract class AbstractAdapter<T> constructor(protected val itemList: MutableList<T>) :
+    RecyclerView.Adapter<AbstractAdapter.Holder>() {
 
     override fun getItemCount() = itemList.size
 
@@ -30,7 +31,7 @@ abstract class AbstractAdapter<T> constructor(protected var itemList: List<T>)
     }
 
 
-    fun update(items: List<T>) {
+    fun updateData(items: List<T>) {
         updateAdapterWithDiffResult(calculateDiff(items))
     }
 
@@ -41,14 +42,24 @@ abstract class AbstractAdapter<T> constructor(protected var itemList: List<T>)
     private fun calculateDiff(newItems: List<T>) =
         DiffUtil.calculateDiff(DiffUtilCallback(itemList, newItems))
 
-    fun add(item: T) {
-        itemList.toMutableList().add(item)
+    fun replaceData(items: List<T>) {
+        if (!itemList.isNullOrEmpty()) itemList.clear()
+        itemList.addAll(items)
+        this.notifyDataSetChanged()
+    }
+
+    fun addData(item: List<T>) {
+        itemList.addAll(item)
         notifyItemInserted(itemList.size)
     }
 
     fun remove(position: Int) {
-        itemList.toMutableList().removeAt(position)
+        itemList.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    fun getData(): List<T> {
+        return itemList
     }
 
     final override fun onViewRecycled(holder: Holder) {

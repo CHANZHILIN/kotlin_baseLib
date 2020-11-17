@@ -30,7 +30,6 @@ class BaseApplication : MultiDexApplication() {
         Runnable {
             android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND)
 
-
             //Module类的APP初始化
             modulesApplicationInit()
             //初始化项目文件夹
