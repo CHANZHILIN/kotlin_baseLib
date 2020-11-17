@@ -125,7 +125,7 @@ class AudioTrackManager {
         isStart = true
         if (audioTrackThread == null) {
             audioTrackThread = Thread(audioTrackRunnable)
-            audioTrackThread!!.start()
+            audioTrackThread?.start()
         }
     }
 

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
-import com.kotlin_baselib.utils.SnackbarUtil
+import com.kotlin_baselib.utils.SnackBarUtil
 import kotlinx.coroutines.TimeoutCancellationException
 
 /**
@@ -56,10 +56,10 @@ abstract class BaseViewModelActivity<VM : BaseViewModel> : BaseActivity() {
         it?.run {
             when (it) {
                 is TimeoutCancellationException -> {
-                    SnackbarUtil.ShortSnackbar(window.decorView.rootView, "请求超时", SnackbarUtil.WARNING).show()
+                    SnackBarUtil.shortSnackBar(window.decorView.rootView, "请求超时", SnackBarUtil.WARNING).show()
                 }
                 is BaseRepository.TokenInvalidException -> {
-                    SnackbarUtil.ShortSnackbar(window.decorView.rootView, "登陆超时", SnackbarUtil.WARNING).show()
+                    SnackBarUtil.shortSnackBar(window.decorView.rootView, "登陆超时", SnackBarUtil.WARNING).show()
                 }
             }
         }
