@@ -13,7 +13,7 @@ import com.kotlin_baselib.R
  * Created by CHEN on 2019/6/17
  * Email:1181785848@qq.com
  * Package:com.kotlin_baselib.utils
- * Introduce: Snackbar工具类
+ * Introduce: SnackBar工具类
  */
 object SnackBarUtil {
 
@@ -29,7 +29,7 @@ object SnackBarUtil {
     var red = -0xbbcca
 
     /**
-     * 短显示Snackbar，自定义颜色
+     * 短显示SnackBar，自定义颜色
      *
      * @param view
      * @param message
@@ -43,13 +43,13 @@ object SnackBarUtil {
         messageColor: Int,
         backgroundColor: Int
     ): Snackbar {
-        val snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
-        setSnackBarColor(snackbar, messageColor, backgroundColor)
-        return snackbar
+        val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
+        setSnackBarColor(snackBar, messageColor, backgroundColor)
+        return snackBar
     }
 
     /**
-     * 长显示Snackbar，自定义颜色
+     * 长显示SnackBar，自定义颜色
      *
      * @param view
      * @param message
@@ -63,13 +63,13 @@ object SnackBarUtil {
         messageColor: Int,
         backgroundColor: Int
     ): Snackbar {
-        val snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-        setSnackBarColor(snackbar, messageColor, backgroundColor)
-        return snackbar
+        val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+        setSnackBarColor(snackBar, messageColor, backgroundColor)
+        return snackBar
     }
 
     /**
-     * 自定义时常显示Snackbar，自定义颜色
+     * 自定义时常显示SnackBar，自定义颜色
      *
      * @param view
      * @param message
@@ -84,14 +84,14 @@ object SnackBarUtil {
         messageColor: Int,
         backgroundColor: Int
     ): Snackbar {
-        val snackbar =
+        val snackBar =
             Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setDuration(duration)
-        setSnackBarColor(snackbar, messageColor, backgroundColor)
-        return snackbar
+        setSnackBarColor(snackBar, messageColor, backgroundColor)
+        return snackBar
     }
 
     /**
-     * 短显示Snackbar，可选预设类型
+     * 短显示SnackBar，可选预设类型
      *
      * @param view
      * @param message
@@ -99,13 +99,13 @@ object SnackBarUtil {
      * @return
      */
     fun shortSnackBar(view: View, message: String, type: Int): Snackbar {
-        val snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
-        switchType(snackbar, type)
-        return snackbar
+        val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
+        switchType(snackBar, type)
+        return snackBar
     }
 
     /**
-     * 长显示Snackbar，可选预设类型
+     * 长显示SnackBar，可选预设类型
      *
      * @param view
      * @param message
@@ -113,13 +113,13 @@ object SnackBarUtil {
      * @return
      */
     fun longSnackBar(view: View, message: String, type: Int): Snackbar {
-        val snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-        switchType(snackbar, type)
-        return snackbar
+        val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+        switchType(snackBar, type)
+        return snackBar
     }
 
     /**
-     * 自定义时常显示Snackbar，可选预设类型
+     * 自定义时常显示SnackBar，可选预设类型
      *
      * @param view
      * @param message
@@ -127,64 +127,64 @@ object SnackBarUtil {
      * @return
      */
     fun indefiniteSnackBar(view: View, message: String, duration: Int, type: Int): Snackbar {
-        val snackbar =
+        val snackBar =
             Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setDuration(duration)
-        switchType(snackbar, type)
-        return snackbar
+        switchType(snackBar, type)
+        return snackBar
     }
 
     //选择预设类型
-    private fun switchType(snackbar: Snackbar, type: Int) {
+    private fun switchType(snackBar: Snackbar, type: Int) {
         when (type) {
-            INFO -> setSnackBarColor(snackbar, blue)
-            CONFIRM -> setSnackBarColor(snackbar, green)
-            WARNING -> setSnackBarColor(snackbar, orange)
-            ALERT -> setSnackBarColor(snackbar, Color.YELLOW, red)
+            INFO -> setSnackBarColor(snackBar, blue)
+            CONFIRM -> setSnackBarColor(snackBar, green)
+            WARNING -> setSnackBarColor(snackBar, orange)
+            ALERT -> setSnackBarColor(snackBar, Color.YELLOW, red)
         }
     }
 
     /**
-     * 设置Snackbar背景颜色
+     * 设置SnackBar背景颜色
      *
-     * @param snackbar
+     * @param snackBar
      * @param backgroundColor
      */
-    fun setSnackBarColor(snackbar: Snackbar, backgroundColor: Int) {
-        val view = snackbar.view
+    private fun setSnackBarColor(snackBar: Snackbar, backgroundColor: Int) {
+        val view = snackBar.view
         view.setBackgroundColor(backgroundColor)
     }
 
     /**
-     * 设置Snackbar文字和背景颜色
+     * 设置SnackBar文字和背景颜色
      *
-     * @param snackbar
+     * @param snackBar
      * @param messageColor
      * @param backgroundColor
      */
-    fun setSnackBarColor(snackbar: Snackbar, messageColor: Int, backgroundColor: Int) {
-        val view = snackbar.view
+    private fun setSnackBarColor(snackBar: Snackbar, messageColor: Int, backgroundColor: Int) {
+        val view = snackBar.view
         view.setBackgroundColor(backgroundColor)
         (view.findViewById<View>(R.id.snackbar_text) as TextView).setTextColor(messageColor)
     }
 
     /**
-     * 向Snackbar中添加view
+     * 向SnackBar中添加view
      *
-     * @param snackbar
+     * @param snackBar
      * @param layoutId
-     * @param index    新加布局在Snackbar中的位置
+     * @param index    新加布局在SnackBar中的位置
      */
-    fun snackBarAddView(snackbar: Snackbar, layoutId: Int, index: Int) {
-        val snackbarview = snackbar.view
-        val snackbarLayout = snackbarview as Snackbar.SnackbarLayout
-        val add_view = LayoutInflater.from(snackbarview.getContext()).inflate(layoutId, null)
+    fun snackBarAddView(snackBar: Snackbar, layoutId: Int, index: Int) {
+        val snackBarView = snackBar.view
+        val snackBarLayout = snackBarView as Snackbar.SnackbarLayout
+        val addView = LayoutInflater.from(snackBarView.getContext()).inflate(layoutId, null)
         val p =
             LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
         p.gravity = Gravity.CENTER_VERTICAL
-        snackbarLayout.addView(add_view, index, p)
+        snackBarLayout.addView(addView, index, p)
     }
 
 }

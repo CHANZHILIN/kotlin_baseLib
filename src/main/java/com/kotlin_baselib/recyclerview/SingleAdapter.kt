@@ -64,7 +64,7 @@ class MultiAdapter<T : IListItem>(
     }
 
     override fun createItemView(parent: ViewGroup, viewType: Int): View {
-        parent.inflate(viewType)
+//        parent.inflate(viewType)
         return parent inflate getLayoutId(viewType)
     }
 
@@ -177,4 +177,4 @@ class ListItemAdapter<T>(var data: T, private val viewType: Int) : IListItem {
  * 中缀调用函数,添加布局
  */
 infix fun ViewGroup.inflate(layoutResId: Int): View =
-    LayoutInflater.from(context).inflate(layoutResId, this, false)
+    LayoutInflater.from(this.context).inflate(layoutResId, this, false)

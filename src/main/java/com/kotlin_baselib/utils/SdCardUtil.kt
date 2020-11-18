@@ -5,7 +5,10 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore.Images.ImageColumns
+import android.util.Log
+import com.kotlin_baselib.api.Constants
 import java.io.File
+import java.lang.Exception
 
 /**
  *  Created by CHEN on 2019/7/4
@@ -79,7 +82,7 @@ object SdCardUtil {
      *
      * @param context
      */
-    fun getExternalCacheDir(context: Context): String? {
+    private fun getExternalCacheDir(context: Context): String? {
         if (!checkSdState())
             return null
         val sb = StringBuilder()
@@ -118,7 +121,7 @@ object SdCardUtil {
      * @param context
      * @return
      */
-    fun getCaremaPath(context: Context): String {
+    fun getCameraPath(context: Context): String {
         return getExternalCacheDir(context)!! + "carema.jpg"
     }
 
@@ -173,5 +176,20 @@ object SdCardUtil {
         return list
     }
 
+    /**
+     * 删除文件
+     */
+    fun deleteFile(path: String?, callBack: ((success: Boolean) -> Unit)?) {
+        val file = File(path)
+        if (file.exists()) {
+            try {
+                file.delete()
+                callBack?.invoke(true)
+            } catch (e: Exception) {
+                callBack?.invoke(false)
+                Log.e(Constants.DEBUG_TAG, "failed to delete file：${path}")
+            }
 
+        }
+    }
 }
