@@ -1,9 +1,13 @@
 package com.kotlin_baselib.glide
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.widget.ImageView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.kotlin_baselib.R
 
 /**
@@ -37,6 +41,7 @@ class GlideUtil private constructor() {
             .apply(options)
             .into(target)
     }
+
 
     /**
      * 带进度条的图片加载
