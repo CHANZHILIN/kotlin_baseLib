@@ -1,19 +1,21 @@
 package com.kotlin_baselib.view
 
+import android.app.Activity
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.content.DialogInterface
+import android.graphics.*
 import android.os.Handler
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatImageView
+import com.kotlin_baselib.R
 import com.kotlin_baselib.api.Constants.Companion.DEBUG_TAG
 import com.kotlin_baselib.entity.GraffitiEntity
+import com.kotlin_baselib.extend.findActivityContext
 import com.kotlin_baselib.gestureDetector.TouchGestureDetector
 import com.kotlin_baselib.gestureDetector.TouchGestureDetector.OnTouchGestureListener
+import com.kotlin_baselib.utils.AlertDialogUtil
 import kotlin.math.ceil
 
 
@@ -36,6 +38,8 @@ class ResizableImageView @JvmOverloads constructor(
     private var mCurrentGraffitiEntity: GraffitiEntity? = null  // 当前的涂鸦轨迹
     private var mSelectedGraffitiEntity: GraffitiEntity? = null// 选中的涂鸦轨迹
 
+    var currentOperation = OPERATION.GRAFFITI   //当前的操作模式
+
 
     /* private var mBitmap: Bitmap? = null
      private var mBitmapTransX = 0f
@@ -50,8 +54,7 @@ class ResizableImageView @JvmOverloads constructor(
             if (mCurrentGraffitiEntity == null) {
                 mCurrentGraffitiEntity = GraffitiEntity(paint)
                 mPathList.add(mCurrentGraffitiEntity!!) // 添加的集合中
-            }
-            else
+            } else
                 mCurrentGraffitiEntity?.paint?.color = field
         }
     var paintWidth = 5f
@@ -61,8 +64,7 @@ class ResizableImageView @JvmOverloads constructor(
             if (mCurrentGraffitiEntity == null) {
                 mCurrentGraffitiEntity = GraffitiEntity(paint)
                 mPathList.add(mCurrentGraffitiEntity!!) // 添加的集合中
-            }
-            else
+            } else
                 mCurrentGraffitiEntity?.paint?.strokeWidth = field
         }
     var isGraffiti = false  //是否启动涂鸦功能
@@ -95,49 +97,11 @@ class ResizableImageView @JvmOverloads constructor(
                   var mTouchCentreX = 0f
                   var mTouchCentreY = 0f*/
 
-                /*   override fun onScaleBegin(detector: ScaleGestureDetectorApi27?): Boolean {
-                       Log.d(DEBUG_TAG, "onScaleBegin: ")
-                       mLastFocusX = null
-                       mLastFocusY = null
-                       return true
-                   }
 
-                   override fun onScaleEnd(detector: ScaleGestureDetectorApi27?) {
-                       Log.d(DEBUG_TAG, "onScaleEnd: ")
-                   }
-
-                   override fun onScale(detector: ScaleGestureDetectorApi27?): Boolean {
-                       Log.d(DEBUG_TAG, "onScale: ")
-                       // 屏幕上的焦点
-                       mTouchCentreX = detector!!.focusX
-                       mTouchCentreY = detector.focusY
-
-                       if (mLastFocusX != null && mLastFocusY != null) { // 焦点改变
-                           val dx = mTouchCentreX - mLastFocusX!!
-                           val dy = mTouchCentreY - mLastFocusY!!
-                           // 移动图片
-                           mBitmapTransX += dx
-                           mBitmapTransY += dy
-                       }
-                       // 缩放图片
-                       mBitmapScale *= detector.scaleFactor
-                       if (mBitmapScale < 0.1f) {
-                           mBitmapScale = 0.1f
-                       }
-                       invalidate()
-
-                       mLastFocusX = mTouchCentreX
-                       mLastFocusY = mTouchCentreY
-
-                       return true
-                   }
-   */
-                override fun onDoubleTap(e: MotionEvent): Boolean {
-//                    val x = toX(e.x)
-//                    val y = toY(e.y)
+                override fun onSingleTapUp(e: MotionEvent): Boolean {
                     if (mSelectedGraffitiEntity == null) {
                         var found = false
-                        for (entity in mPathList) { // 绘制涂鸦轨迹
+                        for (entity in mPathList.reversed()) { // 绘制涂鸦轨迹
                             entity.path.computeBounds(mRectF, true) // 计算涂鸦轨迹的矩形范围
                             mRectF.offset(entity.mX, entity.mY) // 加上偏移
                             if (mRectF.contains(e.x, e.y)) { // 判断是否点中涂鸦轨迹的矩形范围内
@@ -149,12 +113,32 @@ class ResizableImageView @JvmOverloads constructor(
                         if (!found) { // 没有点中任何涂鸦
                             mSelectedGraffitiEntity = null
                         }
-                    } else {
-                        mSelectedGraffitiEntity = null
+                    } else {    //当前有选中的涂鸦
+                        mSelectedGraffitiEntity?.path?.computeBounds(mRectF, true) // 计算涂鸦轨迹的矩形范围
+                        mRectF.offset(
+                            mSelectedGraffitiEntity?.mX ?: 0f,
+                            mSelectedGraffitiEntity?.mY ?: 0f
+                        ) // 加上偏移
+                        val canvas = Canvas(closeBitmap)
+                        if ((e.x >= canvas.clipBounds.left + mRectF.right - closeBitmap.width / 4 && e.x <= canvas.clipBounds.right + mRectF.right - closeBitmap.width / 4)
+                            && (e.y >= canvas.clipBounds.top + mRectF.top - closeBitmap.height / 2 && e.y <= canvas.clipBounds.bottom + mRectF.top - closeBitmap.height / 2)
+                        ) {
+                            showCloseConfirmDialog(context.findActivityContext())
+                        } else {
+                            mSelectedGraffitiEntity = null
+                        }
                     }
+
                     invalidate()
                     return true
                 }
+
+//                override fun onDoubleTap(e: MotionEvent): Boolean {
+////                    val x = toX(e.x)
+////                    val y = toY(e.y)
+//
+//                    return true
+//                }
 
                 override fun onScrollBegin(e: MotionEvent) { // 滑动开始
                     Log.d(DEBUG_TAG, "onScrollBegin: ")
@@ -200,6 +184,7 @@ class ResizableImageView @JvmOverloads constructor(
                             mSelectedGraffitiEntity?.mY =
                                 mSelectedGraffitiEntity?.mY?.minus(distanceY) ?: 0f
                         }
+
                     }
                     mLastX = e2.x
                     mLastY = e2.y
@@ -226,7 +211,7 @@ class ResizableImageView @JvmOverloads constructor(
                             (e.x + mLastX) / 2,
                             (e.y + mLastY) / 2
                         ) // 使用贝塞尔曲线 让涂鸦轨迹更圆滑
-                        mHandler?.sendEmptyMessageDelayed(FLAG_START,2000)
+                        mHandler?.sendEmptyMessageDelayed(FLAG_START, 1500)
                         invalidate() // 刷新
                     }
                 }
@@ -234,9 +219,10 @@ class ResizableImageView @JvmOverloads constructor(
 
         // 针对涂鸦的手势参数设置
         // 下面两行绘画场景下应该设置间距为大于等于1，否则设为0双指缩放后抬起其中一个手指仍然可以移动
-        mTouchGestureDetector?.setScaleSpanSlop(1); // 手势前识别为缩放手势的双指滑动最小距离值
-        mTouchGestureDetector?.setScaleMinSpan(1); // 缩放过程中识别为缩放手势的双指最小距离值
-        mTouchGestureDetector?.setIsScrollAfterScaled(false);
+        mTouchGestureDetector?.setScaleSpanSlop(1)  // 手势前识别为缩放手势的双指滑动最小距离值
+        mTouchGestureDetector?.setScaleMinSpan(1)   // 缩放过程中识别为缩放手势的双指最小距离值
+        mTouchGestureDetector?.setIsScrollAfterScaled(false)
+
     }
 
 /*
@@ -336,6 +322,12 @@ class ResizableImageView @JvmOverloads constructor(
                     val bounce = entity.paint.strokeWidth / 2
                     mRectF.inset(-bounce, -bounce)  //使得阴影包含所有轨迹
                     canvas.drawRect(mRectF, selectBouncePaint)
+                    canvas.drawBitmap(
+                        closeBitmap,
+                        mRectF.right - closeBitmap.width / 4,
+                        mRectF.top - closeBitmap.height / 2,
+                        selectBouncePaint
+                    )
                 }
                 canvas.drawPath(entity.path, entity.paint)
                 canvas.restore(); // 2.恢复画布状态，绘制完一个涂鸦轨迹后取消上面的画布变换，不影响下一个
@@ -343,28 +335,61 @@ class ResizableImageView @JvmOverloads constructor(
         }
     }
 
-    private var mHandler: Handler? = Handler{
-        when(it.what){
-            FLAG_START ->{
+
+    private var mHandler: Handler? = Handler {
+        when (it.what) {
+            FLAG_START -> {
                 mCurrentGraffitiEntity = null // 轨迹结束
-                Log.e(DEBUG_TAG,"1111")
             }
-            FLAG_STOP ->{
+            FLAG_STOP -> {
                 it.target.removeCallbacksAndMessages(null)
-                Log.e(DEBUG_TAG,"2222")
             }
         }
         false
     }
+
     companion object {
         private const val FLAG_START = 0
         private const val FLAG_STOP = 1
     }
 
+    enum class OPERATION{
+        GRAFFITI,   //涂鸦
+        TEXT        //蚊子
+    }
+
+    val closeBitmap: Bitmap = BitmapFactory.decodeResource(resources, R.mipmap.round_close)
+        .copy(Bitmap.Config.ARGB_8888, true)
 
 //    fun setImageUrl(path: String) {
 ////        GlideUtil.instance.loadImage(context, path, this)
 //        mBitmap = BitmapFactory.decodeFile(path)
 //        setImageBitmap(mBitmap)
 //    }
+
+    /**
+     * 弹出是否删除
+     */
+    fun showCloseConfirmDialog(context: Activity?) {
+        AlertDialogUtil.showAlertDialog(context,"确定删除选中的涂鸦吗？", "取消", "确定",
+                DialogInterface.OnClickListener { dialog, _ ->
+                    dialog.dismiss()
+                },
+                DialogInterface.OnClickListener { _, _ ->
+                    mPathList.forEach {
+                        if (mSelectedGraffitiEntity == it) {
+                            mPathList.remove(it)
+                            mSelectedGraffitiEntity = null
+                            invalidate()
+                            return@OnClickListener
+                        }
+                    }
+                })
+    }
+
+    fun clear(){
+        mPathList.clear()
+        closeBitmap.recycle()
+
+    }
 }
