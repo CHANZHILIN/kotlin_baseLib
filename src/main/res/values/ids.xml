@@ -2,4 +2,10 @@
 <resources>
     <item name="statusbarutil_fake_status_bar_view" type="id" />
     <item name="statusbarutil_translucent_view" type="id" />
+
+    <item name="ds_click_debounce_action" type="id"/>
+    <item name="ds_touch_debounce_action" type="id"/>
+    <item name="ds_tag_action" type="id"/>
+
+    <item name="animator" type="id"/>
 </resources>

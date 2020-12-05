@@ -12,6 +12,7 @@ import com.kotlin_baselib.R
 import com.kotlin_baselib.audio.AudioTrackManager
 import com.kotlin_baselib.floatview.FloatingMusicService.Companion.mFloatDeleteView
 import com.kotlin_baselib.floatview.FloatingMusicService.Companion.windowManager
+import com.kotlin_baselib.utils.onClick
 import kotlinx.android.synthetic.main.layout_floating_play_music.view.*
 
 
@@ -74,7 +75,6 @@ class FloatingPlayMusicView @JvmOverloads constructor(context: Context, attrs: A
             isDrag = true
             true
         }
-
 
         play.setOnClickListener {
             if (AudioTrackManager.getInstance().isPlaying()) return@setOnClickListener  //如果在播放中，则直接返回

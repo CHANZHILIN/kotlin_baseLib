@@ -30,12 +30,11 @@ class FloatingDeleteView @JvmOverloads constructor(
 
     var mPath: Path
 
-    private var deleteLayoutParams: WindowManager.LayoutParams
+    private var deleteLayoutParams: WindowManager.LayoutParams =
+        WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
 
 
     init {
-
-        deleteLayoutParams = WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             deleteLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
         } else {
