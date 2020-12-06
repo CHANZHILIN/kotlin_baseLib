@@ -33,7 +33,8 @@ abstract class BaseViewModelActivity<VM : BaseViewModel> : BaseActivity() {
     /**
      * 这个方法一定要重写
      */
-    open fun providerVMClass(): Class<VM>? = null
+//    open fun providerVMClass(): Class<VM>? = null
+    abstract fun providerVMClass(): Class<VM>?
 
     private fun startObserve() {
         //处理一些通用异常，比如网络超时等

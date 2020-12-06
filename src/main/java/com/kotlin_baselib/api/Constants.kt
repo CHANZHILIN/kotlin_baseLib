@@ -14,7 +14,8 @@ interface Constants {
         const val SPAN_COUNT = 3     //瀑布流的列数
         const val LOGIN_ACTIVITY_PATH = "/soul_login/loginActivity"   // 登录页面
 
-
+        /* picture */
+        const val GIF_PICTURE_ACTIVITY_PATH = "/soul_picture/LoadGifActivity"   // 录音页面
 
         /* music */
         const val RECORD_AUDIO_ACTIVITY_PATH = "/soul_music/recordAudioActivity"   // 录音页面
