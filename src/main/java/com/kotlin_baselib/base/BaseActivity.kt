@@ -1,7 +1,6 @@
 package com.kotlin_baselib.base
 
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,7 +27,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected lateinit var mloadingDialog: AlertDialog
     protected lateinit var mLoadingView: LoadingView
 
-    protected var mToolbar: Toolbar? = null
+//    protected var mToolbar: Toolbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +36,8 @@ abstract class BaseActivity : AppCompatActivity() {
         setupTheme()
 //        preSetContentView()//在设置contentView时候，干一些事情，需要时重载
         // 主题、样式设置
-        setContentView(getResId())
+        setContentView()
+//        setContentView(getResId())
         ARouter.getInstance().inject(this)
 //        AndroidBugWorkaround.assistActivity(this)       //解决虚拟导航栏遮盖问题
 
@@ -49,13 +49,13 @@ abstract class BaseActivity : AppCompatActivity() {
             .setCancelable(true)
             .create()
 
-        mToolbar = findViewById(R.id.toolbar)
-
-        setSupportActionBar(mToolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        mToolbar = findViewById(R.id.toolbar)
+//
+//        setSupportActionBar(mToolbar)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // 这里把标题栏回退点击事件放在initEvent之前，是为了可以在子页面根据需要重写他的点击事件
-        setBackClick()
+//        setBackClick()
 
         initData()
         initListener()
@@ -69,11 +69,11 @@ abstract class BaseActivity : AppCompatActivity() {
         startActivity(Intent(applicationContext, z))
     }
 
-    private fun setBackClick() {
-        mToolbar?.setNavigationOnClickListener {
-            finish()
-        }
-    }
+//    private fun setBackClick() {
+//        mToolbar?.setNavigationOnClickListener {
+//            finish()
+//        }
+//    }
 
 //    open fun preSetContentView() {}
 
@@ -121,6 +121,12 @@ abstract class BaseActivity : AppCompatActivity() {
      * 获取资源id
      */
     abstract fun getResId(): Int
+
+    protected open fun setContentView() {
+        if (getResId() != 0) {
+            setContentView(getResId())
+        }
+    }
 
     /**
      * 初始化数据
