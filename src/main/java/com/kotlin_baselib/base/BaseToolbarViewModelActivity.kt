@@ -28,6 +28,8 @@ abstract class BaseToolbarViewModelActivity<VM : BaseViewModel> : BaseActivity()
         startObserve()
     }
 
+    override fun isTransparentPage(): Boolean  = false
+
     override fun setContentView() {
         setContentView(R.layout.activity_base_toolbar_viewmodel)
         val layoutRes = getResId()
